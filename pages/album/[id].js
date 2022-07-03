@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Helmet } from "react-helmet";
+import Seo from "../../src/components/Seo.js";
 // import { useLocation } from "react-router-dom";
 import { useRouter } from "next/router";
 import AppBar from "@mui/material/AppBar";
@@ -173,7 +174,14 @@ const DefaultImageWithText = (props) => {
   // const { height, width } = useWindowDimensions();
   return (
     <>
-      <Helmet
+      <Seo
+        pageTitle={`${avator.name} SNS投稿`}
+        pageDescription={post.caption}
+        pageImg={`${imageUrl}/${post.fileName}`}
+        pageImgWidth={1280}
+        pageImgHeight={960}
+      />
+      {/* <Helmet
         title={`${avator.name} SNS投稿｜まるごとももクロ`}
         meta={[
           { name: "twitter:card", content: "summary_large_image" },
@@ -190,7 +198,7 @@ const DefaultImageWithText = (props) => {
           { property: "og:type", content: "website" },
           { property: "og:image", content: `${imageUrl}/${post.fileName}` },
         ]}
-      />
+      /> */}
       <Grid
         item
         // direction="column"
