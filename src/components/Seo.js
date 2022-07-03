@@ -34,6 +34,7 @@ const Seo = ({
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:site" content="@marugotomomoclo" />
       <meta property="twitter:creator" content="@marugotomomoclo" />
+      <meta property="twitter:image" content={imgUrl} />
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
         href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&amp;display=swap"
