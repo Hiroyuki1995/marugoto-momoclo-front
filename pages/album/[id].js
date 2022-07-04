@@ -340,7 +340,22 @@ const DefaultImageWithText = (props) => {
   );
 };
 
-export default function ImageDetail() {
+export async function getServerSideProps(context) {
+  console.log("getServerSideProps fired");
+  // Fetch data from external API
+  const res = await fetch(`${apiUrl}/photosUrl/${context.query.id}`, {
+    headers: {
+      "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+    },
+  });
+  const data = await res.json();
+  console.log("data:", data);
+
+  // Pass data to the page via props
+  return { props: { data } };
+}
+
+export default function ImageDetail({ data }) {
   console.log("ImageDetail component initialized");
   const router = useRouter();
   const imageId = router.query.id;
@@ -359,21 +374,21 @@ export default function ImageDetail() {
   // const location = useLocation();
 
   const getPost = async (id) => {
-    setLoading(true);
-    console.log("fire getPost");
-    const res = await fetch(`${apiUrl}/photosUrl/${id}`, {
-      headers: {
-        "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
-      },
-    });
-    const data = await res.json();
-    console.log("data", data);
+    // setLoading(true);
+    // console.log("fire getPost");
+    // const res = await fetch(`${apiUrl}/photosUrl/${id}`, {
+    //   headers: {
+    //     "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+    //   },
+    // });
+    // const data = await res.json();
+    // console.log("data", data);
     if (data) {
       setImage(data);
     } else {
       setImage(null);
     }
-    setLoading(false);
+    // setLoading(false);
   };
 
   useEffect(() => {
