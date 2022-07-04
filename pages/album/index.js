@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Helmet } from "react-helmet";
+import Seo from "../../src/components/Seo.js";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Badge, Avatar } from "@mui/material";
@@ -156,7 +157,7 @@ export const SquareImage = (props) => {
           >
             <video
               // controls
-              autoPlay
+              // autoPlay
               muted
               loop
               playsInline
@@ -167,7 +168,6 @@ export const SquareImage = (props) => {
                 left: 0,
                 height: "100%",
                 width: "100%",
-                padding: "2px",
               }}
             >
               <source src={`${imageUrl}/${post.fileName}`} type="video/mp4" />
@@ -198,7 +198,7 @@ export const SquareImage = (props) => {
                 left: 0,
                 // height: 300,
                 // width: 300,
-                padding: "2px",
+                // padding: "2px",
               }}
             />
           </a>
@@ -296,7 +296,7 @@ const DefaultImageWithText = (props) => {
             <video
               key={post.id}
               // controls
-              autoPlay
+              // autoPlay
               loop
               muted
               playsInline
@@ -405,7 +405,14 @@ export default function Album(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Helmet
+      <Seo
+        pageTitle={`SNS写真`}
+        pageDescription={"ももクロの公式SNSの写真たち"}
+        pageImg={pageUrl + "/logo512.png"}
+        // pageImgWidth={1280}
+        // pageImgHeight={960}
+      />
+      {/* <Helmet
         title={`SNS写真｜まるごとももクロ`}
         meta={[
           { name: "twitter:card", content: "summary" },
@@ -420,7 +427,7 @@ export default function Album(props) {
           // { property: "og:url", content: pageUrl + useLocation().pathname },
           { property: "og:image", content: pageUrl + "/logo512.png" },
         ]}
-      />
+      /> */}
       <CssBaseline />
       <Header>
         {(() => {
