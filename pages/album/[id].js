@@ -392,19 +392,22 @@ export default function ImageDetail() {
       {/* <Helmet
         meta={[{ property: "og:url", content: pageUrl + useRouter().pathname }]}
       /> */}
-      <Seo
-        pageTitle={
-          image && image.person
-            ? `${
-                avators.find((avator) => avator.key === image.person).name
-              } SNS投稿`
-            : `SNS投稿`
-        }
-        pageDescription={image ? image.caption : ""}
-        pageImg={image ? `${imageUrl}/${image.fileName}` : ""}
-        pageImgWidth={1280}
-        pageImgHeight={960}
-      />
+      {image && image.person && (
+        <Seo
+          pageTitle={
+            image && image.person
+              ? `${
+                  avators.find((avator) => avator.key === image.person).name
+                } SNS投稿`
+              : `SNS投稿`
+          }
+          pageDescription={image ? image.caption : ""}
+          pageImg={image ? `${imageUrl}/${image.fileName}` : ""}
+          pageImgWidth={1280}
+          pageImgHeight={960}
+        />
+      )}
+
       <CssBaseline />
       <main style={{ paddingBottom: "64px" }}>
         <Grid container maxWidth="sm" style={{ margin: "auto" }}>
