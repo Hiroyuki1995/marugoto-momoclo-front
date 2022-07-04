@@ -437,7 +437,7 @@ export default function Album({ refresh, data }) {
         pageTitle={`SNS写真`}
         pageDescription={"ももクロの公式SNSの写真たち"}
         // pageImg={pageUrl + "/logo512.png"}
-        pageImg={imageUrl + results[0].fileName}
+        pageImg={imageUrl + "/" + results[0].fileName}
         // pageImgWidth={1280}
         // pageImgHeight={960}
       />
