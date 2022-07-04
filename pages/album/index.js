@@ -410,7 +410,9 @@ export default function Album(props) {
         pageDescription={"ももクロの公式SNSの写真たち"}
         // pageImg={pageUrl + "/logo512.png"}
         pageImg={
-          "https://images.marugoto-momoclo.com/20220704055515-takagireni_official-GraphStoryImage-2874726442215444135.jpg"
+          numberOfColumns === 1
+            ? "https://images.marugoto-momoclo.com/20220704055515-takagireni_official-GraphStoryImage-2874726442215444135.jpg"
+            : "https://images.marugoto-momoclo.com/20220703125738-kanakomomota_official-GraphStoryImage-2874214257644170574.jpg"
         }
         // pageImgWidth={1280}
         // pageImgHeight={960}
