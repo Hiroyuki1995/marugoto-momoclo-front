@@ -174,13 +174,13 @@ const DefaultImageWithText = (props) => {
   // const { height, width } = useWindowDimensions();
   return (
     <>
-      <Seo
+      {/* <Seo
         pageTitle={`${avator.name} SNS投稿`}
         pageDescription={post.caption}
         pageImg={`${imageUrl}/${post.fileName}`}
         pageImgWidth={1280}
         pageImgHeight={960}
-      />
+      /> */}
       {/* <Helmet
         title={`${avator.name} SNS投稿｜まるごとももクロ`}
         meta={[
@@ -389,10 +389,22 @@ export default function ImageDetail() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Helmet
+      {/* <Helmet
         meta={[{ property: "og:url", content: pageUrl + useRouter().pathname }]}
+      /> */}
+      <Seo
+        pageTitle={
+          image && image.person
+            ? `${
+                avators.find((avator) => avator.key === image.person).name
+              } SNS投稿`
+            : `SNS投稿`
+        }
+        pageDescription={image ? image.caption : ""}
+        pageImg={image ? `${imageUrl}/${image.fileName}` : ""}
+        pageImgWidth={1280}
+        pageImgHeight={960}
       />
-
       <CssBaseline />
       <main style={{ paddingBottom: "64px" }}>
         <Grid container maxWidth="sm" style={{ margin: "auto" }}>
