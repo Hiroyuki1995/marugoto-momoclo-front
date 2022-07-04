@@ -24,6 +24,7 @@ import { red, pink, yellow, purple } from "@mui/material/colors";
 import StoriesIcon from "../../src/components/StoriesIcon.js";
 import InstagramIcon from "../../src/components/InstagramIcon.js";
 import { pageUrl, imageUrl } from "../../src/const/const.url.js";
+import { apiUrl } from "../../src/const/const.url.js";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Header } from "../../src/components/Header.js";
@@ -339,7 +340,32 @@ const DefaultImageWithText = (props) => {
   );
 };
 
-export default function Album(props) {
+// This gets called on every request
+export async function getServerSideProps() {
+  console.log("getServerSideProps fired");
+  // Fetch data from external API
+  const res = await fetch(
+    `${apiUrl}/photosUrl?person=all`,
+    // ${person}
+    // ${
+    //   lastEvaluatedKey !== null
+    //     ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
+    //     : ``
+    // }
+    {
+      headers: {
+        "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+      },
+    }
+  );
+  const data = await res.json();
+  console.log("data:", data);
+
+  // Pass data to the page via props
+  return { props: { data } };
+}
+
+export default function Album({ refresh, data }) {
   console.log("Album component initialized");
   const posts = useSelector((state) => state.posts);
   const dispatch = useDispatch();
@@ -347,7 +373,8 @@ export default function Album(props) {
   console.log("posts.searchCondition", posts.searchCondition);
   // const results = useSelector((state) => state.posts.results);
   // const searchCondition = useSelector((state) => state.posts.searchCondition);
-  const results = posts.results;
+  // const results = posts.results;
+  const results = data.items;
   const lastEvaluatedKey = posts.searchCondition.lastEvaluatedKey;
   const showAllImages = posts.searchCondition.showAllImages;
   const person = posts.searchCondition.person;
@@ -383,9 +410,10 @@ export default function Album(props) {
 
   useEffect(() => {
     console.log("useEffect fired");
-    console.log("props.refresh", props.refresh);
-    if (props.refresh !== false && showAllImages === false) {
-      getPosts({});
+    console.log("props.refresh", refresh);
+    if (refresh !== false && showAllImages === false) {
+      // getPosts({});
+      console.log("ここでデータ取得するつもりだった");
     }
     console.log("window.scrollY", window.scrollY);
   }, [dispatch]);
@@ -409,11 +437,7 @@ export default function Album(props) {
         pageTitle={`SNS写真`}
         pageDescription={"ももクロの公式SNSの写真たち"}
         // pageImg={pageUrl + "/logo512.png"}
-        pageImg={
-          numberOfColumns === 1
-            ? "https://images.marugoto-momoclo.com/20220704055515-takagireni_official-GraphStoryImage-2874726442215444135.jpg"
-            : "https://images.marugoto-momoclo.com/20220703125738-kanakomomota_official-GraphStoryImage-2874214257644170574.jpg"
-        }
+        pageImg={imageUrl + results[0].fileName}
         // pageImgWidth={1280}
         // pageImgHeight={960}
       />
