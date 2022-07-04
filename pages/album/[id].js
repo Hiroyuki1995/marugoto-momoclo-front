@@ -370,54 +370,50 @@ export default function ImageDetail({ data }) {
   const results = posts.results;
   const resultIds = results.map((result) => result.id);
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
   // const location = useLocation();
 
-  const getPost = async (id) => {
-    // setLoading(true);
-    // console.log("fire getPost");
-    // const res = await fetch(`${apiUrl}/photosUrl/${id}`, {
-    //   headers: {
-    //     "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
-    //   },
-    // });
-    // const data = await res.json();
-    // console.log("data", data);
-    if (data) {
-      setImage(data);
-    } else {
-      setImage(null);
-    }
-    // setLoading(false);
-  };
+  // const getPost = async (id) => {
+  //   // setLoading(true);
+  //   // console.log("fire getPost");
+  //   // const res = await fetch(`${apiUrl}/photosUrl/${id}`, {
+  //   //   headers: {
+  //   //     "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+  //   //   },
+  //   // });
+  //   // const data = await res.json();
+  //   // console.log("data", data);
+  //   if (data) {
+  //     setImage(data);
+  //   } else {
+  //     setImage(null);
+  //   }
+  //   // setLoading(false);
+  // };
 
-  useEffect(() => {
-    console.log("useEffect fired");
-    if (resultIds.indexOf(imageId) !== -1) {
-      console.log("既に画像データが存在しています");
-      setImage(results[resultIds.indexOf(imageId)]);
-      return;
-    }
-    console.log("画像データが存在しないため取得します");
-    getPost(imageId);
-  }, [imageId]);
+  // useEffect(() => {
+  //   console.log("useEffect fired");
+  //   if (resultIds.indexOf(imageId) !== -1) {
+  //     console.log("既に画像データが存在しています");
+  //     setImage(results[resultIds.indexOf(imageId)]);
+  //     return;
+  //   }
+  //   console.log("画像データが存在しないため取得します");
+  //   getPost(imageId);
+  // }, [imageId]);
 
   return (
     <ThemeProvider theme={theme}>
       {/* <Helmet
         meta={[{ property: "og:url", content: pageUrl + useRouter().pathname }]}
       /> */}
-      {image && image.person && (
+      {data && (
         <Seo
-          pageTitle={
-            image && image.person
-              ? `${
-                  avators.find((avator) => avator.key === image.person).name
-                } SNS投稿`
-              : `SNS投稿`
-          }
-          pageDescription={image ? image.caption : ""}
-          pageImg={image ? `${imageUrl}/${image.fileName}` : ""}
+          pageTitle={`${
+            avators.find((avator) => avator.key === data.person).name
+          } SNS投稿`}
+          pageDescription={data.caption}
+          pageImg={`${imageUrl}/${data.fileName}`}
           pageImgWidth={1280}
           pageImgHeight={960}
         />
@@ -426,8 +422,8 @@ export default function ImageDetail({ data }) {
       <CssBaseline />
       <main style={{ paddingBottom: "64px" }}>
         <Grid container maxWidth="sm" style={{ margin: "auto" }}>
-          <DefaultImageWithText post={image} posts={results} />
-          <OtherImages posts={results} currentImage={image} />
+          <DefaultImageWithText post={data} posts={results} />
+          <OtherImages posts={results} currentImage={data} />
         </Grid>
       </main>
     </ThemeProvider>
