@@ -147,7 +147,7 @@ export const SquareImage = (props) => {
         />
       )}
       {post.extension === "mp4" ? (
-        <Link href={`/album/${post.id}`} key={post.id}>
+        <Link href={`/album/${post.id}`}>
           <a
             onClick={() => {
               if (pathname === "/album") {
@@ -176,18 +176,14 @@ export const SquareImage = (props) => {
           </a>
         </Link>
       ) : (
-        <Link href={`/album/${post.id}`} key={post.id}>
+        <Link href={`/album/${post.id}`}>
           <a
             onClick={() => {
-              if (pathname === "/album") {
-                console.log("currnent window.pageYOffset:", window.pageYOffset);
-                dispatch(setScrollPosition(window.pageYOffset));
-              }
+              console.log("currnent window.pageYOffset:", window.pageYOffset);
+              dispatch(setScrollPosition(window.pageYOffset));
             }}
           >
-            <div
-              style={{ position: "relative", width: "100%", height: "100%" }}
-            >
+            <div style={{ width: "100%", height: "100%" }}>
               <Image
                 alt="画像"
                 layout="fill"
