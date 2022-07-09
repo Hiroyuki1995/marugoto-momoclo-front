@@ -4,12 +4,13 @@ import initialState from "../store/initialState";
 export const PostsReducer = (state = initialState.posts, action) => {
   switch (action.type) {
     case Actions.GET_POST_DATA:
-      console.log("action.payload", action.payload);
-      console.log("action.showAllImages", action.showAllImages);
-      console.log(
-        "state.searchCondition.showAllImages",
-        state.searchCondition.showAllImages
-      );
+      // console.log("action.payload", action.payload);
+      // console.log("action.showAllImages", action.showAllImages);
+      // console.log(
+      //   "state.searchCondition.showAllImages",
+      //   state.searchCondition.showAllImages
+      // );
+      console.log("action.refresh", action.refresh);
       if (action.refresh === true) {
         return {
           ...state,
@@ -23,6 +24,8 @@ export const PostsReducer = (state = initialState.posts, action) => {
           // lastEvaluatedKey: action.lastEvaluatedKey,
         };
       }
+      console.log("action.payload", action.payload);
+      console.log("state.results", state.results);
       return {
         ...state,
         results: [...state.results, ...action.payload],
@@ -61,6 +64,10 @@ export const PostsReducer = (state = initialState.posts, action) => {
           ...state.searchCondition,
           person: action.payload,
         },
+      };
+    case Actions.REGISTER_FIRST_DATA:
+      return {
+        results: [...state.results],
       };
     default:
       return state;

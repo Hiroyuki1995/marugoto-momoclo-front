@@ -4,27 +4,30 @@ import {
   registerScrollPositionAction,
   registerPersonAction,
 } from "./actions.js";
-import { apiUrl } from "../../const/const.url.js";
 
 export const fetchPosts = (person, lastEvaluatedKey, refresh) => {
   return async (dispatch, getState) => {
     const state = getState();
     // const isLoading = state.posts.isLoading;
-
-    // if (!isLoading) {
-    const res = await fetch(
-      `${apiUrl}/photosUrl?person=${person}${
+    console.log(
+      `API URL:${
+        process.env.NEXT_PUBLIC_API_URL
+      }/api/photosUrl?person=${person}${
         lastEvaluatedKey !== null
           ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
           : ``
-      }`,
-      {
-        headers: {
-          "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
-        },
-      }
+      }`
+    );
+    // if (!isLoading) {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/photosUrl?person=${person}${
+        lastEvaluatedKey !== null
+          ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
+          : ``
+      }`
     );
     const data = await res.json();
+    console.log("data from api:", data);
     const items = data ? data.items : [];
     const LastEvaluatedKey = JSON.stringify(data.LastEvaluatedKey);
     const showAllImages = data.LastEvaluatedKey ? false : true;
@@ -32,7 +35,9 @@ export const fetchPosts = (person, lastEvaluatedKey, refresh) => {
       "API直後 LastEvaluatedKey",
       LastEvaluatedKey,
       "showAllImages",
-      showAllImages
+      showAllImages,
+      "items",
+      items
     );
     // }
     dispatch(
@@ -78,5 +83,37 @@ export const setScrollPosition = (scrollPosition) => {
         scrollPosition: scrollPosition,
       })
     );
+  };
+};
+
+export const registerFirstData = (data) => {
+  console.log("data: ", data);
+  return (dispatch, getState) => {
+    // const data = await res.json();
+    const items = data ? data.items : [];
+    const LastEvaluatedKey = JSON.stringify(data.LastEvaluatedKey);
+    const showAllImages = data.LastEvaluatedKey ? false : true;
+    console.log(
+      "API直後 LastEvaluatedKey",
+      LastEvaluatedKey,
+      "showAllImages",
+      showAllImages,
+      "items",
+      items
+    );
+    // }
+    dispatch(
+      registerPostsAction({
+        items: items,
+        lastEvaluatedKey: LastEvaluatedKey,
+        refresh: false,
+        showAllImages: showAllImages,
+      })
+    );
+    // dispatch(
+    //   registerFirstDataAction({
+    //     data: data,
+    //   })
+    // );
   };
 };

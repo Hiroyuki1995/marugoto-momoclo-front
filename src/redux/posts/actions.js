@@ -4,6 +4,7 @@ export const CHANGE_SCROLL_POSOTION_CONDITION =
   "CHANGE_SCROLL_POSOTION_CONDITION";
 export const CHANGE_PERSON = "CHANGE_PERSON";
 export const registerPostsAction = (useState) => {
+  console.log("useState in registerPostsAction", useState);
   return {
     type: "GET_POST_DATA",
     payload: useState.items,
@@ -32,5 +33,12 @@ export const registerPersonAction = (useState) => {
   return {
     type: "CHANGE_PERSON",
     payload: useState.person,
+  };
+};
+
+export const registerFirstDataAction = (useState) => {
+  return {
+    type: "REGISTER_FIRST_DATA",
+    payload: useState.data,
   };
 };

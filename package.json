@@ -44,8 +44,8 @@
     "xhr": "^2.6.0"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "APP_ENV=local next dev",
+    "build": "APP_ENV=prod next build",
     "start": "next start"
   },
   "eslintConfig": {

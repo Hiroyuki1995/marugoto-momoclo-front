@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Helmet } from "react-helmet";
 import Seo from "../../src/components/Seo.js";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -24,7 +23,7 @@ import { red, pink, yellow, purple } from "@mui/material/colors";
 import StoriesIcon from "../../src/components/StoriesIcon.js";
 import InstagramIcon from "../../src/components/InstagramIcon.js";
 import { pageUrl, imageUrl } from "../../src/const/const.url.js";
-import { apiUrl } from "../../src/const/const.url.js";
+import { getData } from "../api/photosUrl.js";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Header } from "../../src/components/Header.js";
@@ -33,6 +32,7 @@ import {
   changeNumberOfColumns,
   setScrollPosition,
   changePerson,
+  registerFirstData,
 } from "../../src/redux/posts/operations.js";
 import Grid from "@mui/material/Grid";
 
@@ -73,9 +73,9 @@ export const SquareImage = (props) => {
   // const location = useLocation();
   // const pathname = location.pathname;
   const router = useRouter();
-  console.log(router.pathname);
+  // console.log(router.pathname);
   const pathname = router.pathname;
-  console.log("person", post.person);
+  // console.log("persona", post.person);
   const dispatch = useDispatch();
   let color;
   switch (post.person) {
@@ -147,7 +147,7 @@ export const SquareImage = (props) => {
         />
       )}
       {post.extension === "mp4" ? (
-        <Link href={`/album/${post.id}`}>
+        <Link href={`/album/${post.id}`} key={post.id}>
           <a
             onClick={() => {
               if (pathname === "/album") {
@@ -176,7 +176,7 @@ export const SquareImage = (props) => {
           </a>
         </Link>
       ) : (
-        <Link href={`/album/${post.id}`}>
+        <Link href={`/album/${post.id}`} key={post.id}>
           <a
             onClick={() => {
               if (pathname === "/album") {
@@ -185,23 +185,16 @@ export const SquareImage = (props) => {
               }
             }}
           >
-            <Image
-              alt="画像"
-              // width="100%"
-              // height="100%"
-              layout="fill"
-              objectFit="cover"
-              src={`${imageUrl}/${post.fileName}`}
-              style={{
-                objectFit: "cover",
-                position: "absolute",
-                top: 0,
-                left: 0,
-                // height: 300,
-                // width: 300,
-                // padding: "2px",
-              }}
-            />
+            <div
+              style={{ position: "relative", width: "100%", height: "100%" }}
+            >
+              <Image
+                alt="画像"
+                layout="fill"
+                objectFit="cover"
+                src={`${imageUrl}/${post.fileName}`}
+              />
+            </div>
           </a>
         </Link>
       )}
@@ -212,6 +205,8 @@ export const SquareImage = (props) => {
 const DefaultImageWithText = (props) => {
   const post = props.post;
   const dispatch = useDispatch();
+  const router = useRouter();
+  const pathname = router.pathname;
   let color;
   console.log("post in DefaultImageWithText：", post);
   switch (post.person) {
@@ -242,7 +237,7 @@ const DefaultImageWithText = (props) => {
       // sx={{ height: "100%" }}
       // wrap="wrap"
       key={post.id}
-      className={"image-list"}
+      // className={"image-list"}
       style={{
         position: "relative",
       }}
@@ -315,19 +310,21 @@ const DefaultImageWithText = (props) => {
       ) : (
         // <></>
         <Link href={`/album/${post.id}`}>
-          <a onClick={() => dispatch(setScrollPosition(window.pageYOffset))}>
+          <a
+            onClick={() => {
+              if (pathname === "/album") {
+                console.log("currnent window.pageYOffset:", window.pageYOffset);
+                dispatch(setScrollPosition(window.pageYOffset));
+              }
+            }}
+          >
             <Image
-              key={post.id}
               alt="画像"
+              objectFit="intrinsic"
+              layout="responsive"
+              width="100%"
+              height={`${(100 * post.height) / post.width}%`}
               src={`${imageUrl}/${post.fileName}`}
-              style={{
-                objectFit: "contain",
-                position: "relative",
-                // width: 300,
-                // height: 300,
-                layout: "fill",
-                padding: "0px",
-              }}
             />
           </a>
         </Link>
@@ -344,37 +341,39 @@ const DefaultImageWithText = (props) => {
 export async function getServerSideProps() {
   console.log("getServerSideProps fired");
   // Fetch data from external API
-  const res = await fetch(
-    `${apiUrl}/photosUrl?person=all`,
-    // ${person}
-    // ${
-    //   lastEvaluatedKey !== null
-    //     ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
-    //     : ``
-    // }
-    {
-      headers: {
-        "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
-      },
-    }
-  );
-  const data = await res.json();
-  console.log("data:", data);
+  const data = await getData();
+  // const res = await fetch(
+  //   `${apiUrl}/photosUrl?person=all`,
+  //   // ${person}
+  //   // ${
+  //   //   lastEvaluatedKey !== null
+  //   //     ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
+  //   //     : ``
+  //   // }
+  //   {
+  //     headers: {
+  //       "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+  //     },
+  //   }
+  // );
+  // const data = await res.json();
 
   // Pass data to the page via props
   return { props: { data } };
 }
 
-export default function Album({ refresh, data }) {
+export default function Album({ data }) {
   console.log("Album component initialized");
   const posts = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   // console.log("posts", posts);
   console.log("posts.searchCondition", posts.searchCondition);
-  // const results = useSelector((state) => state.posts.results);
+  const results = useSelector((state) => state.posts.results);
   // const searchCondition = useSelector((state) => state.posts.searchCondition);
   // const results = posts.results;
-  const results = data.items;
+  // const results = data.items;
+  console.log("results", results);
+  const refresh = results.length === 0 ? true : false;
   const lastEvaluatedKey = posts.searchCondition.lastEvaluatedKey;
   const showAllImages = posts.searchCondition.showAllImages;
   const person = posts.searchCondition.person;
@@ -399,9 +398,17 @@ export default function Album({ refresh, data }) {
   }) => {
     // const res = await fetch("https://jsonplaceholder.typicode.com/posts");
     setLoading(true);
-    console.log("person", searchPerson);
-    if ((refresh === true) | (showAllImages === false)) {
-      dispatch(fetchPosts(searchPerson, lastEvaluatedKey, refresh));
+    console.log(
+      "getPosts",
+      lastEvaluatedKey,
+      searchPerson,
+      refresh,
+      showAllImages
+    );
+    // if ((refresh === true) | (showAllImages === false)) {
+    if (showAllImages === false) {
+      // dispatch(fetchPosts(searchPerson, lastEvaluatedKey, refresh));
+      dispatch(fetchPosts(searchPerson, lastEvaluatedKey, false));
     } else {
       console.log("showAllImagesがtrueのため画像取得しません。");
     }
@@ -410,8 +417,9 @@ export default function Album({ refresh, data }) {
 
   useEffect(() => {
     console.log("useEffect fired");
-    console.log("props.refresh", refresh);
-    if (refresh !== false && showAllImages === false) {
+    console.log("refresh", refresh, "showAllImages", showAllImages);
+    // if (refresh !== false && showAllImages === false) {
+    if (showAllImages === false) {
       // getPosts({});
       console.log("ここでデータ取得するつもりだった");
     }
@@ -422,22 +430,24 @@ export default function Album({ refresh, data }) {
   useEffect(() => {
     console.log("scrollPosition", scrollPosition);
     window.scrollTo(0, scrollPosition);
+    console.log("dataa:", data);
+    dispatch(registerFirstData(data));
   }, []);
 
-  const StyledBadge = styled(Badge)(({ theme }) => ({
-    "& .MuiBadge-badge": {
-      right: 10,
-      top: 10,
-    },
-  }));
+  // const StyledBadge = styled(Badge)(({ theme }) => ({
+  //   "& .MuiBadge-badge": {
+  //     right: 10,
+  //     top: 10,
+  //   },
+  // }));
 
   return (
     <ThemeProvider theme={theme}>
       <Seo
         pageTitle={`SNS写真`}
         pageDescription={"ももクロの公式SNSの写真たち"}
-        // pageImg={pageUrl + "/logo512.png"}
-        pageImg={imageUrl + "/" + results[0].fileName}
+        pageImg={pageUrl + "/logo512.png"}
+        // pageImg={imageUrl + "/" + results[0].fileName}
         // pageImgWidth={1280}
         // pageImgHeight={960}
       />
@@ -540,7 +550,7 @@ export default function Album({ refresh, data }) {
                   style={styles.avator}
                   src={avator.src}
                   onClick={() => {
-                    console.log("person", avator.key);
+                    console.log("personn", avator.key);
                     let searchPerson =
                       person === avator.key ? "all" : avator.key;
                     dispatch(changePerson(searchPerson));
