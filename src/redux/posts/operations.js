@@ -10,9 +10,7 @@ export const fetchPosts = (person, lastEvaluatedKey, refresh) => {
     const state = getState();
     // const isLoading = state.posts.isLoading;
     console.log(
-      `API URL:${
-        process.env.NEXT_PUBLIC_API_URL
-      }/api/photosUrl?person=${person}${
+      `API URL:api/photosUrl?person=${person}${
         lastEvaluatedKey !== null
           ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
           : ``
@@ -20,7 +18,7 @@ export const fetchPosts = (person, lastEvaluatedKey, refresh) => {
     );
     // if (!isLoading) {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/photosUrl?person=${person}${
+      `api/photosUrl?person=${person}${
         lastEvaluatedKey !== null
           ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
           : ``
