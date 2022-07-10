@@ -27,6 +27,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { SquareImage, Linkify } from "./index.js";
 import { imageUrl, apiUrl, pageUrl } from "../../src/const/const.url.js";
+import { getData } from "../api/photosUrl.js";
 
 const theme = createTheme();
 
@@ -342,15 +343,26 @@ const DefaultImageWithText = (props) => {
 
 export async function getServerSideProps(context) {
   console.log("getServerSideProps fired");
-  // Fetch data from external API
+  console.log(
+    "process.env.NEXT_PUBLIC_API_URL",
+    process.env.NEXT_PUBLIC_API_URL
+  );
+  console.log("context.req.headers.referer", context.req.headers.referer);
+  const referer = context.req.headers.referer;
+  if (referer === `${process.env.NEXT_PUBLIC_API_URL}/album`) {
+    console.log("refererが画像一覧となっています");
+    const data = {};
+    return { props: { data } };
+  }
+
   const res = await fetch(`${apiUrl}/photosUrl/${context.query.id}`, {
     headers: {
       "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
     },
   });
   const data = await res.json();
-  console.log("data:", data);
 
+  console.log("return", { props: { data } });
   // Pass data to the page via props
   return { props: { data } };
 }
@@ -359,71 +371,50 @@ export default function ImageDetail({ data }) {
   console.log("ImageDetail component initialized");
   const router = useRouter();
   const imageId = router.query.id;
-  // const params = useParams();
-  // console.log("params.id", params.id);
-  // let imageId = id;
-  // const [imageId, setImageId] = useState(params.id);
-  // const imageId = id;
   console.log("imageId", imageId);
   const posts = useSelector((state) => state.posts);
-  const dispatch = useDispatch();
   const results = posts.results;
   const resultIds = results.map((result) => result.id);
-  const [loading, setLoading] = useState(false);
-  // const [image, setImage] = useState(null);
+  var image = null;
+  if (
+    !(data !== null && typeof data === "object" && data.constructor === Object)
+  ) {
+    image = data;
+  } else if (resultIds.indexOf(imageId) !== -1) {
+    console.log("既に画像データが存在しています");
+    image = results[resultIds.indexOf(imageId)];
+  } else {
+    console.log("想定外の事態？");
+  }
+  console.log("resultIds", resultIds);
+  console.log("data", data);
+  console.log("image", image);
+  console.log("avators", avators);
   // const location = useLocation();
-
-  // const getPost = async (id) => {
-  //   // setLoading(true);
-  //   // console.log("fire getPost");
-  //   // const res = await fetch(`${apiUrl}/photosUrl/${id}`, {
-  //   //   headers: {
-  //   //     "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
-  //   //   },
-  //   // });
-  //   // const data = await res.json();
-  //   // console.log("data", data);
-  //   if (data) {
-  //     setImage(data);
-  //   } else {
-  //     setImage(null);
-  //   }
-  //   // setLoading(false);
-  // };
-
-  // useEffect(() => {
-  //   console.log("useEffect fired");
-  //   if (resultIds.indexOf(imageId) !== -1) {
-  //     console.log("既に画像データが存在しています");
-  //     setImage(results[resultIds.indexOf(imageId)]);
-  //     return;
-  //   }
-  //   console.log("画像データが存在しないため取得します");
-  //   getPost(imageId);
-  // }, [imageId]);
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <Helmet
-        meta={[{ property: "og:url", content: pageUrl + useRouter().pathname }]}
-      /> */}
-      {data && (
-        <Seo
-          pageTitle={`${
-            avators.find((avator) => avator.key === data.person).name
-          } SNS投稿`}
-          pageDescription={data.caption}
-          pageImg={`${imageUrl}/${data.fileName}`}
-          pageImgWidth={1280}
-          pageImgHeight={960}
-        />
-      )}
+      <div>
+        {image ? (
+          <Seo
+            pageTitle={`${
+              avators.find((avator) => avator.key === image.person).name
+            } SNS投稿`}
+            pageDescription={image.caption}
+            pageImg={`${imageUrl}/${image.fileName}`}
+            pageImgWidth={1280}
+            pageImgHeight={960}
+          />
+        ) : (
+          <></>
+        )}
+      </div>
 
       <CssBaseline />
       <main style={{ paddingBottom: "64px" }}>
         <Grid container maxWidth="sm" style={{ margin: "auto" }}>
-          <DefaultImageWithText post={data} posts={results} />
-          <OtherImages posts={results} currentImage={data} />
+          <DefaultImageWithText post={image} posts={results} />
+          <OtherImages posts={results} currentImage={image} />
         </Grid>
       </main>
     </ThemeProvider>

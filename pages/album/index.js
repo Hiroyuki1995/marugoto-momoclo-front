@@ -147,7 +147,7 @@ export const SquareImage = (props) => {
         />
       )}
       {post.extension === "mp4" ? (
-        <Link href={`/album/${post.id}`}>
+        <Link href={`/album/${post.id}`} passHref>
           <a
             onClick={() => {
               if (pathname === "/album") {
@@ -176,7 +176,7 @@ export const SquareImage = (props) => {
           </a>
         </Link>
       ) : (
-        <Link href={`/album/${post.id}`}>
+        <Link href={`/album/${post.id}`} passHref>
           <a
             onClick={() => {
               console.log("currnent window.pageYOffset:", window.pageYOffset);
@@ -283,7 +283,7 @@ const DefaultImageWithText = (props) => {
         />
       )}
       {post.extension === "mp4" ? (
-        <Link href={`/album/${post.id}`}>
+        <Link href={`/album/${post.id}`} passHref>
           <a onClick={() => dispatch(setScrollPosition(window.pageYOffset))}>
             <video
               key={post.id}
@@ -305,9 +305,10 @@ const DefaultImageWithText = (props) => {
         </Link>
       ) : (
         // <></>
-        <Link href={`/album/${post.id}`}>
+        <Link href={`/album/${post.id}`} passHref>
           <a
             onClick={() => {
+              console.log("pathname", pathname);
               if (pathname === "/album") {
                 console.log("currnent window.pageYOffset:", window.pageYOffset);
                 dispatch(setScrollPosition(window.pageYOffset));
