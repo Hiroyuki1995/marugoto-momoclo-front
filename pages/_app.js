@@ -12,16 +12,18 @@ import "../styles/global.css";
 // import "../styles/index.css";
 // import App from "./index";
 
-import createStore from "../src/redux/store/store";
-import { Provider } from "react-redux";
-import { ConnectedRouter } from "connected-next-router";
+// import createStore from "../src/redux/store/store";
+// import { Provider } from "react-redux";
+// import { ConnectedRouter } from "connected-next-router";
 // import { ConnectedRouter } from "connected-react-router";
 import * as History from "history";
 // import { BrowserRouter } from "react-router-dom";
+import { wrapper } from "../src/redux/store/store";
 
 // const history = History.createBrowserHistory();
-export const store = createStore();
-console.log("store", store);
+// export const store = createStore();
+
+// console.log("store", store);
 
 // ReactDOM.render(
 //   // <Provider store={store}>
@@ -36,9 +38,10 @@ console.log("store", store);
 //   document.getElementById("root")
 // );
 
-export default function App({ Component, pageProps }) {
+function App({ Component, pageProps }) {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
+    <>
       <footer id="footer">
         <Paper
           sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 2 }}
@@ -106,9 +109,12 @@ export default function App({ Component, pageProps }) {
       </footer>
       <Component {...pageProps} />
       {/* <ConnectedRouter history={history}></ConnectedRouter> */}
-    </Provider>
+      {/* </Provider> */}
+    </>
   );
 }
+
+export default wrapper.withRedux(App);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

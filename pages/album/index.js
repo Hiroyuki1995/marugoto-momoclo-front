@@ -37,6 +37,7 @@ import {
 import Grid from "@mui/material/Grid";
 
 import { avators } from "../../src/const/const.album.js";
+import { wrapper, State } from "../../src/redux/store/store";
 
 export const Linkify = (inputText) => {
   //URLs starting with http://, https://, or ftp://
@@ -335,29 +336,52 @@ const DefaultImageWithText = (props) => {
 };
 
 // This gets called on every request
-export async function getServerSideProps() {
-  console.log("getServerSideProps fired");
-  // Fetch data from external API
-  const data = await getData();
-  // const res = await fetch(
-  //   `${apiUrl}/photosUrl?person=all`,
-  //   // ${person}
-  //   // ${
-  //   //   lastEvaluatedKey !== null
-  //   //     ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
-  //   //     : ``
-  //   // }
-  //   {
-  //     headers: {
-  //       "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
-  //     },
-  //   }
-  // );
-  // const data = await res.json();
+// export async function getServerSideProps(context) {
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (context) => {
+    console.log("getServerSideProps fired");
+    console.log("context", context);
+    // console.log("res", res);
+    console.log("store", store);
+    const state = store.getState();
+    console.log("state", state);
+    console.log("state.posts.results.length", state.posts.results.length);
+    if (state.posts.results.length > 0) {
+      console.log("なにもかえさない");
+      data = {};
+      return { props: { data } };
+    }
+    // const referer = context.req.headers.referer;
+    // console.log("referer", referer);
+    // if (referer && referer.startsWith(process.env.NEXT_PUBLIC_API_URL)) {
+    //   console.log("refererが本サイト内です");
+    //   const data = {};
+    //   return { props: { items: [] } };
+    // }
+    // Fetch data from external API
+    console.log("データを取得");
+    const data = await getData();
+    // const res = await fetch(
+    //   `${apiUrl}/photosUrl?person=all`,
+    //   // ${person}
+    //   // ${
+    //   //   lastEvaluatedKey !== null
+    //   //     ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
+    //   //     : ``
+    //   // }
+    //   {
+    //     headers: {
+    //       "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+    //     },
+    //   }
+    // );
+    // const data = await res.json();
 
-  // Pass data to the page via props
-  return { props: { data } };
-}
+    // Pass data to the page via props
+    return { props: { data } };
+  }
+);
+// }
 
 export default function Album({ data }) {
   console.log("Album component initialized");
@@ -428,7 +452,14 @@ export default function Album({ data }) {
     console.log("scrollPosition", scrollPosition);
     window.scrollTo(0, scrollPosition);
     console.log("dataa:", data);
-    dispatch(registerFirstData(data));
+    // データが入っていなかったら初期データを登録。入ってなかったら登録しない。
+    if (
+      data !== null &&
+      typeof data === "object" &&
+      data.constructor === Object
+    ) {
+      dispatch(registerFirstData(data));
+    }
   }, []);
 
   // const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -542,7 +573,29 @@ export default function Album({ data }) {
                     : styles.inactiveListItem
                 }
               >
-                <Avatar
+                <Avatar style={styles.avator}>
+                  <Image
+                    alt={avator.name}
+                    layout="fill"
+                    objectFit="cover"
+                    width={60}
+                    height={60}
+                    // style={styles.avator}
+                    src={avator.src}
+                    onClick={() => {
+                      console.log("personn", avator.key);
+                      let searchPerson =
+                        person === avator.key ? "all" : avator.key;
+                      dispatch(changePerson(searchPerson));
+                      getPosts({
+                        lastEvaluatedKey: null,
+                        searchPerson: searchPerson,
+                        refresh: true,
+                      });
+                    }}
+                  />
+                </Avatar>
+                {/* <Avatar
                   alt={avator.name}
                   style={styles.avator}
                   src={avator.src}
@@ -557,7 +610,7 @@ export default function Album({ data }) {
                       refresh: true,
                     });
                   }}
-                />
+                /> */}
                 <div style={styles.avatorText}>{avator.shortName}</div>
               </ListItem>
               // </Badge>

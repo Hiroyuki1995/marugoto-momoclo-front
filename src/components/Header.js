@@ -3,6 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { Container } from "@mui/material";
+import Image from "next/image";
 
 export const Header = (props) => {
   return (
@@ -12,7 +13,7 @@ export const Header = (props) => {
           {/* <Typography variant="h6" color="inherit" noWrap>
             まるごとももクロ
           </Typography> */}
-          <img alt="title" src={"/title-logo.jpeg"} style={{ width: 230 }} />
+          <Image alt="title" src={"/title-logo.jpeg"} width={230} height={38} />
           <Box
             sx={{ display: { xs: "flex", md: "flex" } }}
             style={{ marginLeft: "auto" }}

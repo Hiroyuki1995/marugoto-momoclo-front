@@ -10,6 +10,7 @@ import { routerReducer, createRouterMiddleware } from "connected-next-router";
 // Import reducers
 import { PostsReducer } from "../posts/reducers";
 import { SchedulesReducer } from "../schedules/reducers";
+import { createWrapper } from "next-redux-wrapper";
 
 // createStoreの再定義 - historyを引数で受け、connected-react-routerの利用を抽象化
 export default function createStore() {
@@ -34,3 +35,5 @@ export default function createStore() {
     applyMiddleware(thunk, routerMiddleware)
   );
 }
+
+export const wrapper = createWrapper(createStore);
