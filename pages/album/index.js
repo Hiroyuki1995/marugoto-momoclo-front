@@ -148,7 +148,11 @@ export const SquareImage = (props) => {
         />
       )}
       {post.extension === "mp4" ? (
-        <Link href={`/album/${post.id}`} passHref>
+        <Link
+          href={`/album/${post.id}?fetchAgain=f`}
+          passHref
+          as={`/album/${post.id}`}
+        >
           <a
             onClick={() => {
               if (pathname === "/album") {
@@ -177,7 +181,11 @@ export const SquareImage = (props) => {
           </a>
         </Link>
       ) : (
-        <Link href={`/album/${post.id}`} passHref>
+        <Link
+          href={`/album/${post.id}?fetchAgain=f`}
+          passHref
+          as={`/album/${post.id}`}
+        >
           <a
             onClick={() => {
               console.log("currnent window.pageYOffset:", window.pageYOffset);
@@ -284,7 +292,11 @@ const DefaultImageWithText = (props) => {
         />
       )}
       {post.extension === "mp4" ? (
-        <Link href={`/album/${post.id}`} passHref>
+        <Link
+          href={`/album/${post.id}?fetchAgain=f`}
+          passHref
+          as={`/album/${post.id}`}
+        >
           <a onClick={() => dispatch(setScrollPosition(window.pageYOffset))}>
             <video
               key={post.id}
@@ -306,7 +318,11 @@ const DefaultImageWithText = (props) => {
         </Link>
       ) : (
         // <></>
-        <Link href={`/album/${post.id}`} passHref>
+        <Link
+          href={`/album/${post.id}?fetchAgain=f`}
+          passHref
+          as={`/album/${post.id}`}
+        >
           <a
             onClick={() => {
               console.log("pathname", pathname);
@@ -340,16 +356,23 @@ const DefaultImageWithText = (props) => {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     console.log("getServerSideProps fired");
-    console.log("context", context);
+    // console.log("context", context);
     // console.log("res", res);
-    console.log("store", store);
-    const state = store.getState();
-    console.log("state", state);
-    console.log("state.posts.results.length", state.posts.results.length);
-    if (state.posts.results.length > 0) {
+    // console.log("store", store);
+    // const state = store.getState();
+    // console.log("state", state);
+    // console.log("state.posts.results.length", state.posts.results.length);
+    // if (state.posts.results.length > 0) {
+    //   console.log("なにもかえさない");
+    //   data = {};
+    //   return { props: { data } };
+    // }
+    console.log("context.query", context.query);
+    if (context.query && context.query.fetchAgain === "f") {
       console.log("なにもかえさない");
-      data = {};
-      return { props: { data } };
+      // data = {};
+      // return { props: { data } };
+      return {};
     }
     // const referer = context.req.headers.referer;
     // console.log("referer", referer);

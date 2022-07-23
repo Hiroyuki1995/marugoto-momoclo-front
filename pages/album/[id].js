@@ -131,6 +131,7 @@ const OtherImages = (props) => {
 const DefaultImageWithText = (props) => {
   const post = props.post;
   console.log("post", post);
+  console.log("otherData", props.otherData);
   if (post === null) {
     console.log("postは設定されていません");
     return <></>;
@@ -186,7 +187,8 @@ const DefaultImageWithText = (props) => {
         <Grid xs={2} style={{ display: "flex" }}>
           <IconButton>
             <Link
-              href={"/album"}
+              href={`/album${props.otherData === true ? "?fetchAgain=f" : ""}`}
+              as={"/album"}
               style={{ display: "flex" }}
               className={"a-nondecoration"}
             >
@@ -326,12 +328,18 @@ export async function getServerSideProps(context) {
     "process.env.NEXT_PUBLIC_API_URL",
     process.env.NEXT_PUBLIC_API_URL
   );
-  console.log("context.req.headers.referer", context.req.headers.referer);
-  const referer = context.req.headers.referer;
-  if (referer === `${process.env.NEXT_PUBLIC_API_URL}/album`) {
-    console.log("refererが画像一覧となっています");
-    const data = {};
-    return { props: { data } };
+  // console.log("context.req.headers.referer", context.req.headers.referer);
+  // const referer = context.req.headers.referer;
+  // if (referer === `${process.env.NEXT_PUBLIC_API_URL}/album`) {
+  //   console.log("refererが画像一覧となっています");
+  //   const data = {};
+  //   return { props: { data } };
+  // }
+  if (context.query && context.query.fetchAgain === "f") {
+    console.log("なにもかえさない");
+    // data = {};
+    // return { props: { data } };
+    return { props: { otherData: true } };
   }
 
   const res = await fetch(`${apiUrl}/photosUrl/${context.query.id}`, {
@@ -343,10 +351,11 @@ export async function getServerSideProps(context) {
 
   console.log("return", { props: { data } });
   // Pass data to the page via props
-  return { props: { data } };
+  return { props: { data, otherData: false } };
 }
 
-export default function ImageDetail({ data }) {
+export default function ImageDetail({ data, otherData }) {
+  console.log("otherData in ImageDetail", otherData);
   console.log("ImageDetail component initialized");
   const router = useRouter();
   const imageId = router.query.id;
@@ -357,7 +366,7 @@ export default function ImageDetail({ data }) {
   var image = null;
   console.log("data !== null", data !== null);
   console.log("typeof data", typeof data);
-  console.log("data.constructor === Object", data.constructor === Object);
+  // console.log("data.constructor === Object", data.constructor === Object);
   if (resultIds.indexOf(imageId) !== -1) {
     console.log("既に画像データが存在しています");
     image = results[resultIds.indexOf(imageId)];
@@ -397,7 +406,12 @@ export default function ImageDetail({ data }) {
       <CssBaseline />
       <main style={{ paddingBottom: "64px" }}>
         <Grid container maxWidth="sm" style={{ margin: "auto" }}>
-          <DefaultImageWithText post={image} posts={results} />
+          <DefaultImageWithText
+            post={image}
+            posts={results}
+            router={router}
+            otherData={otherData}
+          />
           <OtherImages posts={results} currentImage={image} />
         </Grid>
       </main>
