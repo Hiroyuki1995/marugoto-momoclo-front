@@ -237,6 +237,7 @@ const DefaultImageWithText = (props) => {
             rel={"noreferrer noopener"}
             className={"a-nondecoration"}
           >
+            {/* TODO: next/imageを使う */}
             <Avatar
               alt={avator.name}
               style={{ width: 32, height: 32 }}
@@ -376,13 +377,18 @@ export default function ImageDetail({ data }) {
   const results = posts.results;
   const resultIds = results.map((result) => result.id);
   var image = null;
-  if (
-    !(data !== null && typeof data === "object" && data.constructor === Object)
-  ) {
-    image = data;
-  } else if (resultIds.indexOf(imageId) !== -1) {
+  console.log("data !== null", data !== null);
+  console.log("typeof data", typeof data);
+  console.log("data.constructor === Object", data.constructor === Object);
+  if (resultIds.indexOf(imageId) !== -1) {
     console.log("既に画像データが存在しています");
     image = results[resultIds.indexOf(imageId)];
+  } else if (
+    data !== null &&
+    typeof data === "object" &&
+    data.constructor === Object
+  ) {
+    image = data;
   } else {
     console.log("想定外の事態？");
   }
