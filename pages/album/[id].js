@@ -1,20 +1,13 @@
 import * as React from "react";
-import { Helmet } from "react-helmet";
 import Seo from "../../src/components/Seo.js";
-// import { useLocation } from "react-router-dom";
 import { useRouter } from "next/router";
-import AppBar from "@mui/material/AppBar";
-import CameraIcon from "@mui/icons-material/PhotoCamera";
+import Image from "next/image";
 import CssBaseline from "@mui/material/CssBaseline";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import { useParams } from "react-router-dom";
 
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Avatar } from "@mui/material";
-// import { Link } from "react-router-dom";
 import Link from "next/link";
 
 import Grid from "@mui/material/Grid";
@@ -26,8 +19,8 @@ import { avators } from "../../src/const/const.album.js";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { SquareImage, Linkify } from "./index.js";
-import { imageUrl, apiUrl, pageUrl } from "../../src/const/const.url.js";
-import { getData } from "../api/photosUrl.js";
+import { imageUrl, apiUrl } from "../../src/const/const.url.js";
+import IconButton from "@mui/material/IconButton";
 
 const theme = createTheme();
 
@@ -76,13 +69,15 @@ const OtherImages = (props) => {
               alignItems: "center",
             }}
           >
-            <Link href={`/album/${posts[currentIndex - 1].id}`}>
-              <ArrowBackIcon
-                style={{
-                  color: "#000000",
-                }}
-              />
-            </Link>
+            <IconButton>
+              <Link href={`/album/${posts[currentIndex - 1].id}`}>
+                <ArrowBackIcon
+                  style={{
+                    color: "#000000",
+                  }}
+                />
+              </Link>
+            </IconButton>
           </Grid>
 
           <SquareImage post={posts[currentIndex - 1]} numberOfColumns={4} />
@@ -105,13 +100,15 @@ const OtherImages = (props) => {
               alignItems: "center",
             }}
           >
-            <Link href={`/album/${posts[currentIndex + 1].id}`}>
-              <ArrowForwardIcon
-                style={{
-                  color: "#000000",
-                }}
-              />
-            </Link>
+            <IconButton>
+              <Link href={`/album/${posts[currentIndex + 1].id}`}>
+                <ArrowForwardIcon
+                  style={{
+                    color: "#000000",
+                  }}
+                />
+              </Link>
+            </IconButton>
           </Grid>
         </>
       );
@@ -175,34 +172,8 @@ const DefaultImageWithText = (props) => {
   // const { height, width } = useWindowDimensions();
   return (
     <>
-      {/* <Seo
-        pageTitle={`${avator.name} SNS投稿`}
-        pageDescription={post.caption}
-        pageImg={`${imageUrl}/${post.fileName}`}
-        pageImgWidth={1280}
-        pageImgHeight={960}
-      /> */}
-      {/* <Helmet
-        title={`${avator.name} SNS投稿｜まるごとももクロ`}
-        meta={[
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:site", content: "@marugotomomoclo" },
-          { name: "twitter:creator", content: "@marugotomomoclo" },
-          {
-            property: "og:title",
-            content: `${avator.name} SNS投稿｜まるごとももクロ`,
-          },
-          {
-            property: "og:description",
-            content: post.caption,
-          },
-          { property: "og:type", content: "website" },
-          { property: "og:image", content: `${imageUrl}/${post.fileName}` },
-        ]}
-      /> */}
       <Grid
         item
-        // direction="column"
         xs={12}
         sm={12}
         style={{
@@ -213,13 +184,15 @@ const DefaultImageWithText = (props) => {
         }}
       >
         <Grid xs={2} style={{ display: "flex" }}>
-          <Link
-            href={"/album"}
-            style={{ display: "flex" }}
-            className={"a-nondecoration"}
-          >
-            <ArrowBackIcon style={{ color: "inherit" }} />
-          </Link>
+          <IconButton>
+            <Link
+              href={"/album"}
+              style={{ display: "flex" }}
+              className={"a-nondecoration"}
+            >
+              <ArrowBackIcon style={{ color: "inherit" }} />
+            </Link>
+          </IconButton>
         </Grid>
         <Grid
           xs={8}
@@ -238,11 +211,14 @@ const DefaultImageWithText = (props) => {
             className={"a-nondecoration"}
           >
             {/* TODO: next/imageを使う */}
-            <Avatar
-              alt={avator.name}
-              style={{ width: 32, height: 32 }}
-              src={avator.src}
-            />
+            <Avatar>
+              <Image
+                alt={avator.name}
+                width={40}
+                height={40}
+                src={avator.src}
+              />
+            </Avatar>
             <div
               style={{
                 overflow: "hidden",
@@ -259,25 +235,29 @@ const DefaultImageWithText = (props) => {
         </Grid>
         <Grid xs={2} style={{ textAlign: " right", display: "inline-grid" }}>
           {post.category === "posts" ? (
-            <a
-              href={getInstagramUrlFromMediaId(post.mediaId)}
-              target="_blank"
-              rel={"noreferrer noopener"}
-              style={{ fontSize: 12 }}
-              className={"a-nondecoration"}
-            >
-              投稿へ
-            </a>
+            <IconButton>
+              <a
+                href={getInstagramUrlFromMediaId(post.mediaId)}
+                target="_blank"
+                rel={"noreferrer noopener"}
+                style={{ fontSize: 12 }}
+                className={"a-nondecoration"}
+              >
+                投稿へ
+              </a>
+            </IconButton>
           ) : post.category === "tweets" ? (
-            <a
-              href={`https://twitter.com/momowgp/status/${post.tweetId}`}
-              target="_blank"
-              rel={"noreferrer noopener"}
-              style={{ fontSize: 12 }}
-              className={"a-nondecoration"}
-            >
-              ツイートへ
-            </a>
+            <IconButton>
+              <a
+                href={`https://twitter.com/momowgp/status/${post.tweetId}`}
+                target="_blank"
+                rel={"noreferrer noopener"}
+                style={{ fontSize: 12 }}
+                className={"a-nondecoration"}
+              >
+                ツイートへ
+              </a>
+            </IconButton>
           ) : (
             <></>
           )}
@@ -314,15 +294,13 @@ const DefaultImageWithText = (props) => {
           </video>
         ) : (
           // <></>
-          <img
+          <Image
             alt="画像"
+            objectFit="intrinsic"
+            layout="responsive"
+            width="100%"
+            height={`${(100 * post.height) / post.width}%`}
             src={`${imageUrl}/${post.fileName}`}
-            style={{
-              objectFit: "contain",
-              position: "relative",
-              maxWidth: "100%",
-              padding: "0px",
-            }}
           />
         )}
         <div
