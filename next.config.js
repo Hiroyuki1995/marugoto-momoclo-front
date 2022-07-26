@@ -33,6 +33,9 @@ const nextConfig = withTM({
       "marugoto-momoclo.com",
     ],
   },
+  experimental: {
+    scrollRestoration: true,
+  },
 });
 
 /**

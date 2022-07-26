@@ -9,6 +9,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import "../styles/global.css";
+import "../styles/nprogress.css";
+import Router from "next/router";
+import { useEffect } from "react";
+import NProgress from "nprogress";
 // import "../styles/index.css";
 // import App from "./index";
 
@@ -39,6 +43,17 @@ import { wrapper } from "../src/redux/store/store";
 // );
 
 function App({ Component, pageProps }) {
+  useEffect(() => {
+    Router.onRouteChangeStart = () => {
+      NProgress.start();
+    };
+    Router.onRouteChangeComplete = () => {
+      NProgress.done();
+    };
+    Router.onRouteChangeError = () => {
+      NProgress.done();
+    };
+  }, []);
   return (
     // <Provider store={store}>
     <>

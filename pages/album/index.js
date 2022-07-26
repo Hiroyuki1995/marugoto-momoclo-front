@@ -157,7 +157,7 @@ export const SquareImage = (props) => {
             onClick={() => {
               if (pathname === "/album") {
                 console.log("currnent window.pageYOffset:", window.pageYOffset);
-                dispatch(setScrollPosition(window.pageYOffset));
+                // dispatch(setScrollPosition(window.pageYOffset));
               }
             }}
           >
@@ -189,7 +189,7 @@ export const SquareImage = (props) => {
           <a
             onClick={() => {
               console.log("currnent window.pageYOffset:", window.pageYOffset);
-              dispatch(setScrollPosition(window.pageYOffset));
+              // dispatch(setScrollPosition(window.pageYOffset));
             }}
           >
             <div style={{ width: "100%", height: "100%" }}>
@@ -297,7 +297,9 @@ const DefaultImageWithText = (props) => {
           passHref
           as={`/album/${post.id}`}
         >
-          <a onClick={() => dispatch(setScrollPosition(window.pageYOffset))}>
+          <a
+          // onClick={() => dispatch(setScrollPosition(window.pageYOffset))}
+          >
             <video
               key={post.id}
               // controls
@@ -328,7 +330,7 @@ const DefaultImageWithText = (props) => {
               console.log("pathname", pathname);
               if (pathname === "/album") {
                 console.log("currnent window.pageYOffset:", window.pageYOffset);
-                dispatch(setScrollPosition(window.pageYOffset));
+                // dispatch(setScrollPosition(window.pageYOffset));
               }
             }}
           >
@@ -416,7 +418,7 @@ export default function Album({ data }) {
   // const searchCondition = useSelector((state) => state.posts.searchCondition);
   // const results = posts.results;
   // const results = data.items;
-  console.log("results", results);
+  console.log("results.length", results.length);
   const refresh = results.length === 0 ? true : false;
   const lastEvaluatedKey = posts.searchCondition.lastEvaluatedKey;
   const showAllImages = posts.searchCondition.showAllImages;
@@ -473,7 +475,7 @@ export default function Album({ data }) {
   // 初回レンダリング時のみスクロール位置を指定する
   useEffect(() => {
     console.log("scrollPosition", scrollPosition);
-    window.scrollTo(0, scrollPosition);
+    // window.scrollTo(0, scrollPosition);
     console.log("dataa:", data);
     // データが入っていなかったら初期データを登録。入ってなかったら登録しない。
     if (

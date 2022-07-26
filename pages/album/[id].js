@@ -191,6 +191,7 @@ const DefaultImageWithText = (props) => {
               as={"/album"}
               style={{ display: "flex" }}
               className={"a-nondecoration"}
+              scroll={false}
             >
               <ArrowBackIcon style={{ color: "inherit" }} />
             </Link>
