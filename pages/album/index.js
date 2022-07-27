@@ -152,11 +152,7 @@ export const SquareImage = (props) => {
         passHref
         as={`/album/${post.id}`}
       >
-        <a
-          onClick={() => {
-            console.log("currnent window.pageYOffset:", window.pageYOffset);
-          }}
-        >
+        <a>
           <div style={{ width: "100%", height: "100%" }}>
             <Image
               alt="画像"
@@ -290,14 +286,7 @@ const DefaultImageWithText = (props) => {
         passHref
         as={`/album/${post.id}`}
       >
-        <a
-          onClick={() => {
-            console.log("pathname", pathname);
-            if (pathname === "/album") {
-              console.log("currnent window.pageYOffset:", window.pageYOffset);
-            }
-          }}
-        >
+        <a>
           <Image
             alt="画像"
             objectFit="intrinsic"
