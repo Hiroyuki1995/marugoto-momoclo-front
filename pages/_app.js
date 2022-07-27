@@ -11,7 +11,7 @@ import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import "../styles/global.css";
 import "../styles/nprogress.css";
 import Router from "next/router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import NProgress from "nprogress";
 // import "../styles/index.css";
 // import App from "./index";
@@ -43,6 +43,8 @@ import { wrapper } from "../src/redux/store/store";
 // );
 
 function App({ Component, pageProps }) {
+  const scrollPositions = useRef({});
+  const isBack = useRef(false);
   useEffect(() => {
     Router.onRouteChangeStart = () => {
       NProgress.start();
@@ -54,6 +56,41 @@ function App({ Component, pageProps }) {
       NProgress.done();
     };
   }, []);
+
+  useEffect(() => {
+    Router.beforePopState(() => {
+      isBack.current = true;
+      return true;
+    });
+
+    const onRouteChangeStart = () => {
+      const url = Router.pathname;
+      scrollPositions.current[url] = window.scrollY;
+    };
+
+    const onRouteChangeComplete = (url) => {
+      if (
+        // isBack.current &&
+        scrollPositions.current[url]
+      ) {
+        window.scroll({
+          top: scrollPositions.current[url],
+          behavior: "auto",
+        });
+      }
+
+      isBack.current = false;
+    };
+
+    Router.events.on("routeChangeStart", onRouteChangeStart);
+    Router.events.on("routeChangeComplete", onRouteChangeComplete);
+
+    return () => {
+      Router.events.off("routeChangeStart", onRouteChangeStart);
+      Router.events.off("routeChangeComplete", onRouteChangeComplete);
+    };
+  }, [Router]);
+
   return (
     // <Provider store={store}>
     <>

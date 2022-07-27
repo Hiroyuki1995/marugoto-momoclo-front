@@ -451,10 +451,10 @@ export default function Album({ data }) {
       refresh,
       showAllImages
     );
-    // if ((refresh === true) | (showAllImages === false)) {
-    if (showAllImages === false) {
-      // dispatch(fetchPosts(searchPerson, lastEvaluatedKey, refresh));
-      dispatch(fetchPosts(searchPerson, lastEvaluatedKey, false));
+    if ((refresh === true) | (showAllImages === false)) {
+      // if (showAllImages === false) {
+      dispatch(fetchPosts(searchPerson, lastEvaluatedKey, refresh));
+      // dispatch(fetchPosts(searchPerson, lastEvaluatedKey, false));
     } else {
       console.log("showAllImagesがtrueのため画像取得しません。");
     }
