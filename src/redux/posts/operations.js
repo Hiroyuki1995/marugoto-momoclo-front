@@ -4,25 +4,38 @@ import {
   registerScrollPositionAction,
   registerPersonAction,
 } from "./actions.js";
+import { apiUrl } from "../../const/const.url.js";
 
 export const fetchPosts = (person, lastEvaluatedKey, refresh) => {
   return async (dispatch, getState) => {
     const state = getState();
     // const isLoading = state.posts.isLoading;
-    console.log(
-      `API URL:api/photosUrl?person=${person}${
-        lastEvaluatedKey !== null
-          ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
-          : ``
-      }`
-    );
+    // console.log(
+    //   `API URL:api/photosUrl?person=${person}${
+    //     lastEvaluatedKey !== null
+    //       ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
+    //       : ``
+    //   }`
+    // );
     // if (!isLoading) {
+    // const res = await fetch(
+    //   `api/photosUrl?person=${person}${
+    //     lastEvaluatedKey !== null
+    //       ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
+    //       : ``
+    //   }`
+    // );
     const res = await fetch(
-      `api/photosUrl?person=${person}${
+      `${apiUrl}/photosUrl?person=${person}${
         lastEvaluatedKey !== null
           ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
           : ``
-      }`
+      }`,
+      {
+        headers: {
+          "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+        },
+      }
     );
     const data = await res.json();
     console.log("data from api:", data);

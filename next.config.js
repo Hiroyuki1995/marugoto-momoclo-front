@@ -31,6 +31,7 @@ const nextConfig = withTM({
       "images.marugoto-momoclo.com",
       "marugoto-momoclo-front.vercel.app",
       "marugoto-momoclo.com",
+      "test.marugoto-momoclo.com",
     ],
   },
   experimental: {
