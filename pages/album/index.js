@@ -316,7 +316,9 @@ export async function getServerSideProps(context) {
   console.log("context.query", context.query);
   if (context.query && context.query.fetchAgain === "f") {
     console.log("なにもかえさない");
-    return {};
+    // return {};
+    const data = [];
+    return { props: { data } };
   }
   // Fetch data from external API
   console.log("データを取得");

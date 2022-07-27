@@ -116,3 +116,7 @@ a {
 #footer .MuiBottomNavigationAction-label.Mui-selected {
   font-size: 0.825rem;
 }
+
+a img:active {
+  opacity: 0.5;
+}
