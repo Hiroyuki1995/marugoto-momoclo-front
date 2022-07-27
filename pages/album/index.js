@@ -30,14 +30,14 @@ import { Header } from "../../src/components/Header.js";
 import {
   fetchPosts,
   changeNumberOfColumns,
-  setScrollPosition,
   changePerson,
   registerFirstData,
 } from "../../src/redux/posts/operations.js";
 import Grid from "@mui/material/Grid";
 
 import { avators } from "../../src/const/const.album.js";
-import { wrapper, State } from "../../src/redux/store/store";
+import { State } from "../../src/redux/store/store";
+import { apiUrl } from "../../src/const/const.url.js";
 
 export const Linkify = (inputText) => {
   //URLs starting with http://, https://, or ftp://
@@ -147,62 +147,29 @@ export const SquareImage = (props) => {
           }
         />
       )}
-      {post.extension === "mp4" ? (
-        <Link
-          href={`/album/${post.id}?fetchAgain=f`}
-          passHref
-          as={`/album/${post.id}`}
+      <Link
+        href={`/album/${post.id}?fetchAgain=f`}
+        passHref
+        as={`/album/${post.id}`}
+      >
+        <a
+          onClick={() => {
+            console.log("currnent window.pageYOffset:", window.pageYOffset);
+          }}
         >
-          <a
-            onClick={() => {
-              if (pathname === "/album") {
-                console.log("currnent window.pageYOffset:", window.pageYOffset);
-                // dispatch(setScrollPosition(window.pageYOffset));
-              }
-            }}
-          >
-            <video
-              // controls
-              // autoPlay
-              muted
-              loop
-              playsInline
-              style={{
-                objectFit: "cover",
-                position: "absolute",
-                top: 0,
-                left: 0,
-                height: "100%",
-                width: "100%",
-              }}
-            >
-              <source src={`${imageUrl}/${post.fileName}`} type="video/mp4" />
-            </video>
-          </a>
-        </Link>
-      ) : (
-        <Link
-          href={`/album/${post.id}?fetchAgain=f`}
-          passHref
-          as={`/album/${post.id}`}
-        >
-          <a
-            onClick={() => {
-              console.log("currnent window.pageYOffset:", window.pageYOffset);
-              // dispatch(setScrollPosition(window.pageYOffset));
-            }}
-          >
-            <div style={{ width: "100%", height: "100%" }}>
-              <Image
-                alt="画像"
-                layout="fill"
-                objectFit="cover"
-                src={`${imageUrl}/${post.fileName}`}
-              />
-            </div>
-          </a>
-        </Link>
-      )}
+          <div style={{ width: "100%", height: "100%" }}>
+            <Image
+              alt="画像"
+              layout="fill"
+              objectFit="cover"
+              src={`${imageUrl}/${
+                post.extension === "mp4" ? post.thumnail : post.fileName
+              }`}
+            />
+          </div>
+        </a>
+      </Link>
+      {/* )} */}
     </Grid>
   );
 };
@@ -291,15 +258,13 @@ const DefaultImageWithText = (props) => {
           }
         />
       )}
-      {post.extension === "mp4" ? (
+      {/* {post.extension === "mp4" ? (
         <Link
           href={`/album/${post.id}?fetchAgain=f`}
           passHref
           as={`/album/${post.id}`}
         >
-          <a
-          // onClick={() => dispatch(setScrollPosition(window.pageYOffset))}
-          >
+          <a>
             <video
               key={post.id}
               // controls
@@ -318,33 +283,34 @@ const DefaultImageWithText = (props) => {
             </video>
           </a>
         </Link>
-      ) : (
-        // <></>
-        <Link
-          href={`/album/${post.id}?fetchAgain=f`}
-          passHref
-          as={`/album/${post.id}`}
+      ) : ( */}
+      {/* <></> */}
+      <Link
+        href={`/album/${post.id}?fetchAgain=f`}
+        passHref
+        as={`/album/${post.id}`}
+      >
+        <a
+          onClick={() => {
+            console.log("pathname", pathname);
+            if (pathname === "/album") {
+              console.log("currnent window.pageYOffset:", window.pageYOffset);
+            }
+          }}
         >
-          <a
-            onClick={() => {
-              console.log("pathname", pathname);
-              if (pathname === "/album") {
-                console.log("currnent window.pageYOffset:", window.pageYOffset);
-                // dispatch(setScrollPosition(window.pageYOffset));
-              }
-            }}
-          >
-            <Image
-              alt="画像"
-              objectFit="intrinsic"
-              layout="responsive"
-              width="100%"
-              height={`${(100 * post.height) / post.width}%`}
-              src={`${imageUrl}/${post.fileName}`}
-            />
-          </a>
-        </Link>
-      )}
+          <Image
+            alt="画像"
+            objectFit="intrinsic"
+            layout="responsive"
+            width="100%"
+            height={`${(100 * post.height) / post.width}%`}
+            src={`${imageUrl}/${
+              post.extension === "mp4" ? post.thumnail : post.fileName
+            }`}
+          />
+        </a>
+      </Link>
+      {/* )} */}
       <div
         style={{ whiteSpace: "pre-wrap" }}
         // dangerouslySetInnerHTML={{ __html: Linkify(post.caption) }}
@@ -354,59 +320,26 @@ const DefaultImageWithText = (props) => {
 };
 
 // This gets called on every request
-// export async function getServerSideProps(context) {
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    console.log("getServerSideProps fired");
-    // console.log("context", context);
-    // console.log("res", res);
-    // console.log("store", store);
-    // const state = store.getState();
-    // console.log("state", state);
-    // console.log("state.posts.results.length", state.posts.results.length);
-    // if (state.posts.results.length > 0) {
-    //   console.log("なにもかえさない");
-    //   data = {};
-    //   return { props: { data } };
-    // }
-    console.log("context.query", context.query);
-    if (context.query && context.query.fetchAgain === "f") {
-      console.log("なにもかえさない");
-      // data = {};
-      // return { props: { data } };
-      return {};
-    }
-    // const referer = context.req.headers.referer;
-    // console.log("referer", referer);
-    // if (referer && referer.startsWith(process.env.NEXT_PUBLIC_API_URL)) {
-    //   console.log("refererが本サイト内です");
-    //   const data = {};
-    //   return { props: { items: [] } };
-    // }
-    // Fetch data from external API
-    console.log("データを取得");
-    const data = await getData();
-    // const res = await fetch(
-    //   `${apiUrl}/photosUrl?person=all`,
-    //   // ${person}
-    //   // ${
-    //   //   lastEvaluatedKey !== null
-    //   //     ? `&exclusiveStartKey=${encodeURIComponent(lastEvaluatedKey)}`
-    //   //     : ``
-    //   // }
-    //   {
-    //     headers: {
-    //       "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
-    //     },
-    //   }
-    // );
-    // const data = await res.json();
-
-    // Pass data to the page via props
-    return { props: { data } };
+export async function getServerSideProps(context) {
+  // export const getServerSideProps = wrapper.getServerSideProps(
+  // (store) => async (context) => {
+  console.log("getServerSideProps fired");
+  console.log("context.query", context.query);
+  if (context.query && context.query.fetchAgain === "f") {
+    console.log("なにもかえさない");
+    return {};
   }
-);
-// }
+  // Fetch data from external API
+  console.log("データを取得");
+  const res = await fetch(`${apiUrl}/photosUrl?person=all`, {
+    headers: {
+      "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+    },
+  });
+  const data = await res.json();
+  // Pass data to the page via props
+  return { props: { data } };
+}
 
 export default function Album({ data }) {
   console.log("Album component initialized");
@@ -434,7 +367,6 @@ export default function Album({ data }) {
   // const registerSet.addEventListener("scroll", function () {
   //   const scrollPosition = window.pageYOffset;
   //   console.log("scroll_position", scrollPosition);
-  //   dispatch(setScrollPosition(scrollPosition));
   // });
 
   const getPosts = ({
