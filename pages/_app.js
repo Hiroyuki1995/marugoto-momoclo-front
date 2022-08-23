@@ -11,6 +11,7 @@ import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import "../styles/global.css";
 import "../styles/nprogress.css";
 import Router from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import NProgress from "nprogress";
 // import "../styles/index.css";
@@ -19,6 +20,12 @@ import NProgress from "nprogress";
 import createStore from "../src/redux/store/store";
 import { Provider } from "react-redux";
 import * as History from "history";
+import {
+  PhotoOutlined,
+  ArticleOutlined,
+  TodayOutlined,
+  Link as LinkIcon,
+} from "@mui/icons-material";
 
 export const store = createStore();
 
@@ -28,6 +35,10 @@ function App({ Component, pageProps }) {
   const scrollPositions = useRef({});
   const isBack = useRef(false);
   useEffect(() => {
+    // const { pathname } = Router;
+    // if (pathname === "/") {
+    //   Router.Push("/album");
+    // }
     Router.onRouteChangeStart = () => {
       NProgress.start();
     };
@@ -73,6 +84,10 @@ function App({ Component, pageProps }) {
     };
   }, [Router]);
 
+  const router = useRouter();
+  const pathname = router.pathname;
+  console.log("pathname", pathname);
+
   return (
     <Provider store={store}>
       {/* <> */}
@@ -83,7 +98,7 @@ function App({ Component, pageProps }) {
         >
           <BottomNavigation
             showLabels
-            // value={value}
+            value={pathname}
             // onChange={(event, newValue) => {
             //   setValue(newValue);
             // }}
@@ -91,20 +106,20 @@ function App({ Component, pageProps }) {
           >
             <BottomNavigationAction
               // component={Link}
-              href="/album/"
+              href="/album"
               label="SNS写真"
-              value="/album/"
-              // icon={<PhotoOutlined />}
+              value="/album"
+              icon={<PhotoOutlined />}
               onClick={() => {
                 console.log("push album");
               }}
             />
             <BottomNavigationAction
               // component={Link}
-              href="/news/"
+              href="/news"
               label="ニュース"
-              value="/news/"
-              // icon={<ArticleOutlined />}
+              value="/news"
+              icon={<ArticleOutlined />}
               onClick={() => {
                 console.log("push news");
                 // if (pathname === "/album/") {
@@ -114,10 +129,10 @@ function App({ Component, pageProps }) {
             />
             <BottomNavigationAction
               // component={Link}
-              href="/calendar/"
+              href="/calendar"
               label="スケジュール"
-              value="/calendar/"
-              // icon={<TodayOutlined />}
+              value="/calendar"
+              icon={<TodayOutlined />}
               onClick={() => {
                 console.log("push calendar");
                 // if (pathname === "/album/") {
@@ -127,10 +142,10 @@ function App({ Component, pageProps }) {
             />
             <BottomNavigationAction
               // component={Link}
-              href="/link/"
+              href="/link"
               label="リンク"
-              value="/link/"
-              // icon={<LinkIcon />}
+              value="/link"
+              icon={<LinkIcon />}
               onClick={() => {
                 console.log("push link");
                 // if (pathname === "/album/") {

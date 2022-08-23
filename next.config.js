@@ -37,6 +37,15 @@ const nextConfig = withTM({
   experimental: {
     scrollRestoration: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/album",
+        permanent: true,
+      },
+    ];
+  },
 });
 
 /**

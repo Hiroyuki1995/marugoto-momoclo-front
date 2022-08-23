@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Helmet } from "react-helmet";
 import { pageUrl } from "../../src/const/const.url.js";
-// import { useLocation } from "react-router-dom";
+import Seo from "../../src/components/Seo.js";
 import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -39,7 +38,17 @@ export default function LinkList(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Helmet
+      <Seo
+        pageTitle={`リンク`}
+        pageDescription={
+          "ももクロの公式サイトやライブ申し込みや・グッズ通販サイト、まるごとももクロのSNSアカウントへのリンク"
+        }
+        pageImg={pageUrl + "/logo512.png"}
+        // pageImg={imageUrl + "/" + results[0].fileName}
+        // pageImgWidth={1280}
+        // pageImgHeight={960}
+      />
+      {/* <Helmet
         title={`リンク｜まるごとももクロ`}
         meta={[
           { name: "twitter:card", content: "summary" },
@@ -55,7 +64,7 @@ export default function LinkList(props) {
           { property: "og:url", content: pageUrl + useRouter().pathname },
           { property: "og:image", content: pageUrl + "/logo512.png" },
         ]}
-      />
+      /> */}
       <CssBaseline />
       {/* <AppBar position="relative"> */}
       <Header />
