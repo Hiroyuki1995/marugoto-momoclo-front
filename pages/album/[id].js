@@ -167,6 +167,9 @@ const DefaultImageWithText = (props) => {
     case "tweets":
       avatorHref = `https://twitter.com/${avator.link}`;
       break;
+    case "youtube#video":
+      avatorHref = `https://www.youtube.com/c/${avator.link}/featured`;
+      break;
     default:
       break;
   }
@@ -261,6 +264,16 @@ const DefaultImageWithText = (props) => {
                 ツイートへ
               </a>
             </IconButton>
+          ) : post.category === "youtube#video" ? (
+            <a
+              href={`https://www.youtube.com/watch?v=${post.youtubeVideoId}`}
+              target="_blank"
+              rel={"noreferrer noopener"}
+              style={{ fontSize: 12 }}
+              className={"a-nondecoration"}
+            >
+              視聴へ
+            </a>
           ) : (
             <></>
           )}

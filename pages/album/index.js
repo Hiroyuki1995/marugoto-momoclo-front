@@ -2,7 +2,7 @@ import * as React from "react";
 import Seo from "../../src/components/Seo.js";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Badge, Avatar } from "@mui/material";
+import { Badge, Avatar, breadcrumbsClasses } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 // import { Link, useLocation } from "react-router-dom";
@@ -27,6 +27,7 @@ import { getData } from "../api/photosUrl.js";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Header } from "../../src/components/Header.js";
+import YouTubeIcon from "../../src/components/YouTubeIcon.js";
 import {
   fetchPosts,
   changeNumberOfColumns,
@@ -95,6 +96,83 @@ export const SquareImage = (props) => {
     default:
       color = "";
   }
+  let Icon = () => {
+    switch (post.category) {
+      case "stories":
+        console.log("stories");
+        return (
+          <div
+            style={{
+              position: "absolute",
+              top: "3%",
+              left: "3%",
+              width: "10%",
+              height: "10%",
+              zIndex: 1,
+            }}
+          >
+            <StoriesIcon color={color} />
+          </div>
+        );
+      case "posts":
+        return (
+          <div
+            style={{
+              position: "absolute",
+              top: "3%",
+              left: "3%",
+              width: "10%",
+              height: "10%",
+              zIndex: 1,
+            }}
+          >
+            <InstagramIcon color={color} />
+          </div>
+        );
+      case "tweets":
+        return (
+          <Chip
+            style={{
+              position: "absolute",
+              top: "3%",
+              left: "3%",
+              width: "10%",
+              height: "10%",
+              backgroundColor: "#00acee",
+              borderRadius: "50%",
+              zIndex: 1,
+            }}
+            icon={
+              <TwitterIcon
+                style={{
+                  margin: 0,
+                  color: "#ffffff",
+                  width: "60%",
+                  position: "absolute",
+                }}
+              />
+            }
+          />
+        );
+      case "youtube#video":
+        return (
+          <div
+            style={{
+              position: "absolute",
+              top: "2%",
+              left: "3%",
+              width: "12%",
+              height: "12%",
+              zIndex: 1,
+            }}
+          >
+            <YouTubeIcon />
+          </div>
+        );
+      default:
+        return <></>;
+    }
+  };
   return (
     <Grid
       item
@@ -106,7 +184,8 @@ export const SquareImage = (props) => {
         position: "relative",
       }}
     >
-      {color ? (
+      <Icon />
+      {/* {color ? (
         <div
           style={{
             position: "absolute",
@@ -146,7 +225,7 @@ export const SquareImage = (props) => {
             />
           }
         />
-      )}
+      )} */}
       <Link
         href={`/album/${post.id}?fetchAgain=f`}
         passHref
@@ -193,6 +272,83 @@ const DefaultImageWithText = (props) => {
     default:
       color = "";
   }
+  let Icon = () => {
+    switch (post.category) {
+      case "stories":
+        console.log("stories");
+        return (
+          <div
+            style={{
+              position: "absolute",
+              top: "3%",
+              left: "3%",
+              width: 30,
+              height: 30,
+              zIndex: 1,
+            }}
+          >
+            <StoriesIcon color={color} />
+          </div>
+        );
+      case "posts":
+        return (
+          <div
+            style={{
+              position: "absolute",
+              top: "3%",
+              left: "3%",
+              width: 30,
+              height: 30,
+              zIndex: 1,
+            }}
+          >
+            <InstagramIcon color={color} />
+          </div>
+        );
+      case "tweets":
+        return (
+          <Chip
+            style={{
+              position: "absolute",
+              top: "3%",
+              left: "3%",
+              width: 30,
+              height: 30,
+              backgroundColor: "#00acee",
+              borderRadius: "50%",
+              zIndex: 1,
+            }}
+            icon={
+              <TwitterIcon
+                style={{
+                  margin: 0,
+                  color: "#ffffff",
+                  width: "60%",
+                  position: "absolute",
+                }}
+              />
+            }
+          />
+        );
+      case "youtube#video":
+        return (
+          <div
+            style={{
+              position: "absolute",
+              top: "3%",
+              left: "3%",
+              width: 30,
+              height: 30,
+              zIndex: 1,
+            }}
+          >
+            <YouTubeIcon />
+          </div>
+        );
+      default:
+        return <></>;
+    }
+  };
   // const { height, width } = useWindowDimensions();
   return (
     <Grid
@@ -210,7 +366,8 @@ const DefaultImageWithText = (props) => {
         position: "relative",
       }}
     >
-      {color ? (
+      <Icon />
+      {/* {color ? (
         <div
           style={{
             position: "absolute",
@@ -253,7 +410,7 @@ const DefaultImageWithText = (props) => {
             />
           }
         />
-      )}
+      )} */}
       {/* {post.extension === "mp4" ? (
         <Link
           href={`/album/${post.id}?fetchAgain=f`}

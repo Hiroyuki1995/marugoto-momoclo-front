@@ -28,6 +28,13 @@ export const avators = [
     link: "takagireni_official",
   },
   {
+    name: "Momoiro Clover Z Channel",
+    shortName: "公式YouTube",
+    src: "/momoriocloverzchannel.jpg",
+    key: "Momoiro Clover Z Channel",
+    link: "kanakomomota_official",
+  },
+  {
     name: "ももクロインフォ公式",
     shortName: "インフォ",
     src: "/information_mcz.jpg",
