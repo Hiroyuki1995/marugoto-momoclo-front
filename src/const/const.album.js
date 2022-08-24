@@ -32,7 +32,7 @@ export const avators = [
     shortName: "公式YouTube",
     src: "/momoriocloverzchannel.jpg",
     key: "Momoiro Clover Z Channel",
-    link: "kanakomomota_official",
+    link: "MCZofficial",
   },
   {
     name: "ももクロインフォ公式",
