@@ -120,3 +120,12 @@ a {
 a img:active {
   opacity: 0.5;
 }
+
+#link-list .Mui-disabled {
+  opacity: 1
+}
+
+#link-list .MuiCollapse-wrapperInner>div:nth-child(odd) a{
+  background-color:#ffdfec    
+}
+
