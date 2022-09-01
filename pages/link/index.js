@@ -57,10 +57,10 @@ export default function NestedList() {
           name: "9/24(土)開催　北九州ロックフェスティバル",
           url: "https://kitakyushu-rock.com/tickets/",
         },
-        {
-          name: "9/24(土)開催　THE GREAT SATSUMANIAN HESTIVAL 2022 SPECIAL",
-          url: "https://www.great-satsumanian.jp/ticket.html",
-        },
+        // {
+        //   name: "10/7(金)開催　THE GREAT SATSUMANIAN HESTIVAL 2022 SPECIAL",
+        //   url: "https://www.great-satsumanian.jp/ticket.html",
+        // },
         {
           name: "10/8(土)開催　「スナック愛輪」　※8/28(日)番組最速独占先行開始",
           url: "https://event.1242.com/events/snack_a-rin/",
