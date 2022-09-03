@@ -79,6 +79,10 @@ export default function NestedList() {
           name: "玉井詩織生誕記念アイテム",
           url: "https://www.beams.co.jp/search/?label=0751&q=220826%E3%82%82%E3%82%82%E3%82%AF%E3%83%AD&search=true",
         },
+        {
+          name: "百田夏菜子イメージルックのジェラートピケアイテム",
+          url: "https://gelatopique.com/Page/feature/220825_PREORDER/?plan=GP220825PREORDER",
+        },
       ],
     },
     {
