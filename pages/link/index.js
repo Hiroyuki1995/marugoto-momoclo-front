@@ -14,6 +14,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { pageUrl } from "../../src/const/const.url.js";
 import Seo from "../../src/components/Seo.js";
+import { apiUrl } from "../../src/const/const.url.js";
+import { linkCategories } from "../../src/const/const.link.js";
 import Grid from "@mui/material/Grid";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -27,7 +29,46 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 
-export default function NestedList() {
+export async function getServerSideProps(context) {
+  // export const getServerSideProps = wrapper.getServerSideProps(
+  // (store) => async (context) => {
+  console.log("getServerSideProps fired");
+  console.log("context.query", context.query);
+  if (context.query && context.query.fetchAgain === "f") {
+    console.log("なにもかえさない");
+    // return {};
+    const data = [];
+    return { props: { data } };
+  }
+  // Fetch data from external API
+  console.log("データを取得");
+  const res = await fetch(`${apiUrl}/links`, {
+    headers: {
+      "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+    },
+  });
+  const json = await res.json();
+  const items = json.items;
+  const links = linkCategories;
+  for (const item of items) {
+    for (let i = 0; i < linkCategories.length; i++) {
+      let category = linkCategories[i];
+      if (item.category === category.name) {
+        console.log("push", item.name);
+        links[i].details.push({
+          name: item.name,
+          url: item.url,
+        });
+        break;
+      }
+    }
+  }
+  // Pass data to the page via props
+  return { props: { links } };
+}
+
+export default function NestedList({ links }) {
+  // console.log("links", links);
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
@@ -36,68 +77,12 @@ export default function NestedList() {
 
   const theme = createTheme();
 
-  const links = [
-    {
-      category: "発売中チケット",
-      icon: "stadium",
-      details: [
-        {
-          name: "9/6(金)開催　黒フェス",
-          url: "http://kurofes.net/pages/ticket",
-        },
-        {
-          name: "9/17(土)開催　イナズマロック フェス 2022　※9/3(土)10:00〜チケット一般発売開始",
-          url: "https://inazumarock.com/2022/",
-        },
-        {
-          name: "9/18(日)開催　氣志團万博2022",
-          url: "https://www.kishidanbanpaku.com/ticket/",
-        },
-        {
-          name: "9/24(土)開催　北九州ロックフェスティバル",
-          url: "https://kitakyushu-rock.com/tickets/",
-        },
-        // {
-        //   name: "10/7(金)開催　THE GREAT SATSUMANIAN HESTIVAL 2022 SPECIAL",
-        //   url: "https://www.great-satsumanian.jp/ticket.html",
-        // },
-        {
-          name: "10/8(土)開催　「スナック愛輪」　※8/28(日)番組最速独占先行開始",
-          url: "https://event.1242.com/events/snack_a-rin/",
-        },
-      ],
-    },
-    {
-      category: "グッズ",
-      icon: "cart",
-      details: [
-        {
-          name: "はるえ商店",
-          url: "https://mailivis.jp/shops/momoclo",
-        },
-        {
-          name: "玉井詩織生誕記念アイテム",
-          url: "https://www.beams.co.jp/search/?label=0751&q=220826%E3%82%82%E3%82%82%E3%82%AF%E3%83%AD&search=true",
-        },
-        {
-          name: "百田夏菜子イメージルックのジェラートピケアイテム",
-          url: "https://gelatopique.com/Page/feature/220825_PREORDER/?plan=GP220825PREORDER",
-        },
-      ],
-    },
-    {
-      category: "オフィシャルサイト",
-      icon: "home",
-      url: "https://www.momoclo.net/",
-    },
-  ];
-
   const Links = () => {
     return (
       <Box id="link-list">
-        {links.map((link) => {
+        {links.map((link, index) => {
           return (
-            <div>
+            <div key={index}>
               <ListItemButton
                 component={link.url ? "a" : ""}
                 href={link.url ? `${link.url}` : ""}
@@ -123,7 +108,7 @@ export default function NestedList() {
                   )}
                 </ListItemIcon>
                 <ListItemText
-                  primary={link.category}
+                  primary={link.displayName}
                   // style={{ color: "#000000" }}
                 />
                 {link.url ? (
