@@ -15,7 +15,6 @@ import StarBorder from "@mui/icons-material/StarBorder";
 import { pageUrl } from "../../src/const/const.url.js";
 import Seo from "../../src/components/Seo.js";
 import { apiUrl } from "../../src/const/const.url.js";
-import { linkCategories } from "../../src/const/const.link.js";
 import Grid from "@mui/material/Grid";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -30,16 +29,8 @@ import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 
 export async function getServerSideProps(context) {
-  // export const getServerSideProps = wrapper.getServerSideProps(
-  // (store) => async (context) => {
   console.log("getServerSideProps fired");
   console.log("context.query", context.query);
-  if (context.query && context.query.fetchAgain === "f") {
-    console.log("なにもかえさない");
-    // return {};
-    const data = [];
-    return { props: { data } };
-  }
   // Fetch data from external API
   console.log("データを取得");
   const res = await fetch(`${apiUrl}/links`, {
@@ -49,10 +40,29 @@ export async function getServerSideProps(context) {
   });
   const json = await res.json();
   const items = json.items;
-  const links = linkCategories;
+  const links = [
+    {
+      name: "tickets",
+      displayName: "発売中チケット",
+      icon: "stadium",
+      details: [],
+    },
+    {
+      name: "goods",
+      displayName: "グッズ",
+      icon: "cart",
+      details: [],
+    },
+    {
+      name: "hp",
+      displayName: "オフィシャルサイト",
+      icon: "home",
+      url: "https://www.momoclo.net/",
+    },
+  ];
   for (const item of items) {
-    for (let i = 0; i < linkCategories.length; i++) {
-      let category = linkCategories[i];
+    for (let i = 0; i < links.length; i++) {
+      let category = links[i];
       if (item.category === category.name) {
         console.log("push", item.name);
         links[i].details.push({
