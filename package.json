@@ -40,6 +40,7 @@
     "react-twitter-follow-button": "^0.1.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
+    "sharp": "^0.31.0",
     "styled-components": "^5.3.3",
     "web-vitals": "^2.1.0",
     "xhr": "^2.6.0"

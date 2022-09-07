@@ -180,52 +180,11 @@ export const SquareImage = (props) => {
       sm={12 / numberOfColumns}
       key={post.id}
       className={"image-list aspect-ratio-1"}
+      // className={"image-list"}
       style={{
         position: "relative",
       }}
     >
-      <Icon />
-      {/* {color ? (
-        <div
-          style={{
-            position: "absolute",
-            top: "3%",
-            left: "3%",
-            width: "10%",
-            height: "10%",
-            zIndex: 1,
-          }}
-        >
-          {post.category === "stories" ? (
-            <StoriesIcon color={color} />
-          ) : (
-            <InstagramIcon color={color} />
-          )}
-        </div>
-      ) : (
-        <Chip
-          style={{
-            position: "absolute",
-            top: "3%",
-            left: "3%",
-            width: "10%",
-            height: "10%",
-            backgroundColor: "#00acee",
-            borderRadius: "50%",
-            zIndex: 1,
-          }}
-          icon={
-            <TwitterIcon
-              style={{
-                margin: 0,
-                color: "#ffffff",
-                width: "60%",
-                position: "absolute",
-              }}
-            />
-          }
-        />
-      )} */}
       <Link
         href={`/album/${post.id}?fetchAgain=f`}
         passHref
@@ -240,8 +199,10 @@ export const SquareImage = (props) => {
               src={`${imageUrl}/${
                 post.extension === "mp4" ? post.thumnail : post.fileName
               }`}
+              priority={true}
             />
           </div>
+          <Icon />
         </a>
       </Link>
       {/* )} */}
@@ -366,78 +327,6 @@ const DefaultImageWithText = (props) => {
         position: "relative",
       }}
     >
-      <Icon />
-      {/* {color ? (
-        <div
-          style={{
-            position: "absolute",
-            top: "3%",
-            left: "3%",
-            width: 30,
-            height: 30,
-            // color: color,
-            // backgroundColor: color,
-            // borderRadius: "50%",
-            zIndex: 1,
-          }}
-        >
-          {post.category === "stories" ? (
-            <StoriesIcon color={color} />
-          ) : (
-            <InstagramIcon color={color} />
-          )}
-        </div>
-      ) : (
-        <Chip
-          style={{
-            position: "absolute",
-            top: "3%",
-            left: "3%",
-            width: 30,
-            height: 30,
-            backgroundColor: "#00acee",
-            borderRadius: "50%",
-            zIndex: 1,
-          }}
-          icon={
-            <TwitterIcon
-              style={{
-                margin: 0,
-                color: "#ffffff",
-                width: "60%",
-                position: "absolute",
-              }}
-            />
-          }
-        />
-      )} */}
-      {/* {post.extension === "mp4" ? (
-        <Link
-          href={`/album/${post.id}?fetchAgain=f`}
-          passHref
-          as={`/album/${post.id}`}
-        >
-          <a>
-            <video
-              key={post.id}
-              // controls
-              // autoPlay
-              loop
-              muted
-              playsInline
-              style={{
-                objectFit: "contain",
-                position: "relative",
-                width: "100%",
-                padding: "0px",
-              }}
-            >
-              <source src={`${imageUrl}/${post.fileName}`} type="video/mp4" />
-            </video>
-          </a>
-        </Link>
-      ) : ( */}
-      {/* <></> */}
       <Link
         href={`/album/${post.id}?fetchAgain=f`}
         passHref
@@ -454,6 +343,7 @@ const DefaultImageWithText = (props) => {
               post.extension === "mp4" ? post.thumnail : post.fileName
             }`}
           />
+          <Icon />
         </a>
       </Link>
       {/* )} */}
@@ -584,22 +474,6 @@ export default function Album({ data }) {
         // pageImgWidth={1280}
         // pageImgHeight={960}
       />
-      {/* <Helmet
-        title={`SNS写真｜まるごとももクロ`}
-        meta={[
-          { name: "twitter:card", content: "summary" },
-          { name: "twitter:site", content: "@marugotomomoclo" },
-          { name: "twitter:creator", content: "@marugotomomoclo" },
-          { property: "og:title", content: "SNS写真｜まるごとももクロ" },
-          {
-            property: "og:description",
-            content: "ももクロの公式SNSの写真たち",
-          },
-          { property: "og:type", content: "website" },
-          // { property: "og:url", content: pageUrl + useLocation().pathname },
-          { property: "og:image", content: pageUrl + "/logo512.png" },
-        ]}
-      /> */}
       <CssBaseline />
       <Header>
         {(() => {
@@ -681,7 +555,7 @@ export default function Album({ data }) {
                 <Avatar style={styles.avator}>
                   <Image
                     alt={avator.name}
-                    layout="fill"
+                    // layout="fill"
                     objectFit="cover"
                     width={60}
                     height={60}
