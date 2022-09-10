@@ -363,6 +363,13 @@ export async function getServerSideProps(context) {
   });
   const data = await res.json();
 
+  console.log("data", data);
+  if (!Object.keys(data).length) {
+    return {
+      notFound: true,
+    };
+  }
+
   console.log("return", { props: { data } });
   // Pass data to the page via props
   return { props: { data, otherData: false } };
