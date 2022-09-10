@@ -13,7 +13,7 @@ import "../styles/nprogress.css";
 import Router from "next/router";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
-import NProgress from "nprogress";
+import NProgress from "nprogress"; // 画面遷移時のプログレスバーの表示
 // import "../styles/index.css";
 // import App from "./index";
 
@@ -90,68 +90,35 @@ function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      {/* <> */}
       <footer id="footer">
         <Paper
           sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 2 }}
           elevation={3}
         >
-          <BottomNavigation
-            showLabels
-            value={pathname}
-            // onChange={(event, newValue) => {
-            //   setValue(newValue);
-            // }}
-            // style={{ position: "fixed", bottom: 0, width: "100%", zIndex: 1 }}
-          >
+          <BottomNavigation showLabels value={pathname}>
             <BottomNavigationAction
-              // component={Link}
-              href="/album"
               label="SNS写真"
               value="/album"
               icon={<PhotoOutlined />}
-              onClick={() => {
-                console.log("push album");
-              }}
+              onClick={() => router.push("/album")}
             />
             <BottomNavigationAction
-              // component={Link}
-              href="/news"
               label="ニュース"
               value="/news"
               icon={<ArticleOutlined />}
-              onClick={() => {
-                console.log("push news");
-                // if (pathname === "/album/") {
-                //   dispatch(setScrollPosition(window.pageYOffset));
-                // }
-              }}
+              onClick={() => router.push("/news")}
             />
             <BottomNavigationAction
-              // component={Link}
-              href="/calendar"
               label="スケジュール"
               value="/calendar"
               icon={<TodayOutlined />}
-              onClick={() => {
-                console.log("push calendar");
-                // if (pathname === "/album/") {
-                //   dispatch(setScrollPosition(window.pageYOffset));
-                // }
-              }}
+              onClick={() => router.push("/calendar")}
             />
             <BottomNavigationAction
-              // component={Link}
-              href="/link"
               label="リンク"
               value="/link"
               icon={<LinkIcon />}
-              onClick={() => {
-                console.log("push link");
-                // if (pathname === "/album/") {
-                //   dispatch(setScrollPosition(window.pageYOffset));
-                // }
-              }}
+              onClick={() => router.push("/link")}
             />
           </BottomNavigation>
         </Paper>

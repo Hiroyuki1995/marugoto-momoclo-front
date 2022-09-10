@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export const Header = (props) => {
   return (
-    <AppBar position="fixed" color={"grey"}>
+    <AppBar position="fixed" color={"grey"} style={{ zIndex: 2 }}>
       <Container maxWidth="md" style={{ padding: 0 }}>
         <Toolbar>
           {/* <Typography variant="h6" color="inherit" noWrap>
