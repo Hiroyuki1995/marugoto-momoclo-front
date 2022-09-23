@@ -1,4 +1,5 @@
 import * as React from "react";
+import { GetServerSideProps } from 'next'
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -28,6 +29,18 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 
+type LinkDetail = {
+  name: string;
+  url: string;
+}
+type Link = {
+  name: string;
+  displayName: string;
+  icon: string;
+  url?: string;
+  details?: LinkDetail[];
+}
+
 export async function getServerSideProps(context) {
   console.log("getServerSideProps fired");
   console.log("context.query", context.query);
@@ -40,7 +53,7 @@ export async function getServerSideProps(context) {
   });
   const json = await res.json();
   const items = json.items;
-  const links = [
+  const links: Link[] = [
     {
       name: "tickets",
       displayName: "発売中チケット",
@@ -65,7 +78,7 @@ export async function getServerSideProps(context) {
       let category = links[i];
       if (item.category === category.name) {
         console.log("push", item.name);
-        links[i].details.push({
+        links[i].details?.push({
           name: item.name,
           url: item.url,
         });
@@ -90,11 +103,11 @@ export default function NestedList({ links }) {
   const Links = () => {
     return (
       <Box id="link-list">
-        {links.map((link, index) => {
+        {links.length !== 0 ? links.map((link, index) => {
           return (
             <div key={index}>
               <ListItemButton
-                component={link.url ? "a" : ""}
+                component={link.url ? "a" : "button"}
                 href={link.url ? `${link.url}` : ""}
                 target={"_blank"}
                 rel={"noreferrer noopener"}
@@ -119,7 +132,7 @@ export default function NestedList({ links }) {
                 </ListItemIcon>
                 <ListItemText
                   primary={link.displayName}
-                  // style={{ color: "#000000" }}
+                // style={{ color: "#000000" }}
                 />
                 {link.url ? (
                   <ListItemIcon>
@@ -171,7 +184,7 @@ export default function NestedList({ links }) {
           );
           // const [open, setOpen] = React.useState(true);
           // return <div>{link.category}</div>;
-        })}
+        }) : <></>}
       </Box>
     );
   };
@@ -184,9 +197,9 @@ export default function NestedList({ links }) {
           "ももクロの公式サイトやライブ申し込みや・グッズ通販サイト、まるごとももクロのSNSアカウントへのリンク"
         }
         pageImg={pageUrl + "/logo512.png"}
-        // pageImg={imageUrl + "/" + results[0].fileName}
-        // pageImgWidth={1280}
-        // pageImgHeight={960}
+      // pageImg={imageUrl + "/" + results[0].fileName}
+      // pageImgWidth={1280}
+      // pageImgHeight={960}
       />
       <CssBaseline />
       <Header />

@@ -2,14 +2,13 @@ import * as React from "react";
 import Seo from "../../src/components/Seo.js";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Badge, Avatar, breadcrumbsClasses } from "@mui/material";
+import { Avatar } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 // import { Link, useLocation } from "react-router-dom";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import styled from "styled-components";
 import { List, ListItem, Container } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -23,7 +22,6 @@ import { red, pink, yellow, purple } from "@mui/material/colors";
 import StoriesIcon from "../../src/components/StoriesIcon.js";
 import InstagramIcon from "../../src/components/InstagramIcon.js";
 import { pageUrl, imageUrl } from "../../src/const/const.url.js";
-import { getData } from "../api/photosUrl.js";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Header } from "../../src/components/Header.js";
@@ -37,7 +35,6 @@ import {
 import Grid from "@mui/material/Grid";
 
 import { avators } from "../../src/const/const.album.js";
-import { State } from "../../src/redux/store/store";
 import { apiUrl } from "../../src/const/const.url.js";
 
 export const Linkify = (inputText) => {

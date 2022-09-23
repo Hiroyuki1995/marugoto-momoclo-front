@@ -1,4 +1,11 @@
-export const categories = [
+type category = {
+  id:string;
+  name:string;
+  className:string;
+  colorCode: string;
+  defaultDisplay: Boolean;
+}
+export const categories: category[] = [
   {
     id: "LIVE",
     name: "【公式】ライブ情報",
@@ -29,7 +36,14 @@ export const categories = [
   },
 ];
 
-export const groups = [
+type group = {
+  id:string;
+  category: string,
+  name: string,
+  googleCalendarId: string,
+}
+
+export const groups: group[] = [
   {
     id: "resultAnnouncement",
     category: "LIVE",

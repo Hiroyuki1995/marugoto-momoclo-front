@@ -3,10 +3,10 @@ import Head from "next/head";
 const Seo = ({
   pageTitle,
   pageDescription,
-  pagePath,
+  pagePath = "",
   pageImg,
-  pageImgWidth,
-  pageImgHeight,
+  pageImgWidth = 0,
+  pageImgHeight = 0,
 }) => {
   const defaultTitle = "まるごとももクロ";
   const defaultDescription = "ももクロの最新情報をお届けします";

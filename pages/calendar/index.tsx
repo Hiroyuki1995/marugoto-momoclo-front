@@ -24,6 +24,15 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
+import {
+  DateSelectArg,
+  EventApi,
+  EventClickArg,
+  CalendarContext,
+  EventDef,
+  EventInstance,
+  EventSourceInput,
+} from "@fullcalendar/react";
 import { useEffect, useState } from "react";
 import { categories, groups } from "../../src/const/const.calendar";
 import { Header } from "../../src/components/Header.js";
@@ -31,6 +40,14 @@ import dayjs from "dayjs";
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
 
 const theme = createTheme();
+// selectedEventの初期値を空オブジェクトにするため、公式のEventApiインターフェースを拡張して、必須キーを任意に変えた型を定義
+// TODO　適切なやり方かよくわからない。。
+type SelectedEventApi = Partial<EventApi> & {
+  _context?: CalendarContext;
+  _def?: EventDef;
+  _instance?: EventInstance | null;
+}
+const initialSelectedEvent: SelectedEventApi = {};
 
 export default function Calendar(props) {
   const [open, setOpen] = React.useState(false);
@@ -39,9 +56,31 @@ export default function Calendar(props) {
       .filter((category) => category.defaultDisplay === true)
       .map((category) => category.id)
   );
-  const [selectedEvent, setSelectedEvent] = useState({});
+  const [selectedEvent, setSelectedEvent] = useState<SelectedEventApi>(initialSelectedEvent);
 
-  const Calendar = () => {
+  const eventSources: EventSourceInput[] = groups.map((group) => {
+    console.log(
+      "displayCategoryIds",
+      displayCategoryIds,
+      "group.category",
+      group.category
+    );
+    if (displayCategoryIds.includes(group.category)) {
+      console.log("googleCalendarId:", group.googleCalendarId);
+      return {
+        // id: group.id,
+        key: group.googleCalendarId,
+        googleCalendarId: group.googleCalendarId,
+        className: categories.find(
+          (category) => category.id === group.category
+        )?.className, // TODO ?が適切なやり方かは要チェック
+      };
+    }
+    return [];
+  })
+
+
+  const Calendar = (): JSX.Element => {
     return typeof window !== "undefined" ? (
       <FullCalendar
         plugins={[
@@ -53,7 +92,7 @@ export default function Calendar(props) {
         displayEventTime={true}
         eventDisplay={"auto"}
         initialView="dayGridMonth"
-        lang="ja"
+        // lang="ja"
         height="auto"
         locale={"ja"}
         buttonText={{
@@ -63,25 +102,7 @@ export default function Calendar(props) {
           list: "リスト",
         }}
         googleCalendarApiKey={"AIzaSyDQVBRwNglJudNq188KyldkE7voLbM39lI"}
-        eventSources={groups.map((group) => {
-          console.log(
-            "displayCategoryIds",
-            displayCategoryIds,
-            "group.category",
-            group.category
-          );
-          if (displayCategoryIds.includes(group.category)) {
-            console.log("googleCalendarId:", group.googleCalendarId);
-            return {
-              // id: group.id,
-              key: group.googleCalendarId,
-              googleCalendarId: group.googleCalendarId,
-              className: categories.find(
-                (category) => category.id === group.category
-              ).className,
-            };
-          }
-        })}
+        eventSources={eventSources}
         // Googleカレンダーへのリンクを解除する
         eventDataTransform={(event) => {
           event.url = "";
@@ -104,7 +125,7 @@ export default function Calendar(props) {
           // right: "dayGridMonth,timeGridWeek,listWeek",
           right: "dayGridMonth,listMonth",
         }}
-        eventClick={(info) => {
+        eventClick={(info: EventClickArg) => {
           setOpen(true);
           setSelectedEvent(info.event);
           console.log("info.event", info.event);
@@ -113,8 +134,9 @@ export default function Calendar(props) {
           //     displayAdmin ? calendarAdmin : ``
           //   }`
           // );
-        }}
-      ></FullCalendar>
+        }
+        }
+      ></FullCalendar >
     ) : (
       <></>
     );
@@ -143,9 +165,9 @@ export default function Calendar(props) {
         pageTitle={`スケジュール`}
         pageDescription={"ももクロのライブ情報・番組出演情報などのスケジュール"}
         pageImg={pageUrl + "/logo512.png"}
-        // pageImg={imageUrl + "/" + results[0].fileName}
-        // pageImgWidth={1280}
-        // pageImgHeight={960}
+      // pageImg={imageUrl + "/" + results[0].fileName}
+      // pageImgWidth={1280}
+      // pageImgHeight={960}
       />
       {/* <Helmet
         title={`スケジュール｜まるごとももクロ`}
@@ -190,11 +212,11 @@ export default function Calendar(props) {
                 {selectedEvent.allDay === true
                   ? `${dayjs(selectedEvent.start).format("YYYY/M/D")}`
                   : `${dayjs(selectedEvent.start).format(
-                      "YYYY/M/D HH:mm"
-                    )}〜${dayjs(selectedEvent.end).format("YYYY/M/D HH:mm")}`}
+                    "YYYY/M/D HH:mm"
+                  )}〜${dayjs(selectedEvent.end).format("YYYY/M/D HH:mm")}`}
               </Typography>
               {selectedEvent.extendedProps &&
-              selectedEvent.extendedProps.description ? (
+                selectedEvent.extendedProps.description ? (
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                   <span
                     dangerouslySetInnerHTML={{
@@ -237,10 +259,10 @@ export default function Calendar(props) {
                     style={
                       category.colorCode ? { color: category.colorCode } : {}
                     }
-                    // labelStyle={{ color: "white" }}
-                    // iconStyle={{ fill: "white" }}
-                    // iconStyle={{ fill: "#dd0000" }}
-                    // color={group.color}
+                  // labelStyle={{ color: "white" }}
+                  // iconStyle={{ fill: "white" }}
+                  // iconStyle={{ fill: "#dd0000" }}
+                  // color={group.color}
                   />
                 }
                 label={category.name}
