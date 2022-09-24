@@ -1,5 +1,5 @@
 import * as React from "react";
-import Seo from "../../src/components/Seo.js";
+import Seo from "../../src/components/Seo";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import CssBaseline from "@mui/material/CssBaseline";

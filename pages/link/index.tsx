@@ -14,12 +14,12 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { pageUrl } from "../../src/const/const.url.js";
-import Seo from "../../src/components/Seo.js";
+import Seo from "../../src/components/Seo";
 import { apiUrl } from "../../src/const/const.url.js";
 import Grid from "@mui/material/Grid";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Header } from "../../src/components/Header.js";
+import { Header } from "../../src/components/Header";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -41,7 +41,7 @@ type Link = {
   details?: LinkDetail[];
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   console.log("getServerSideProps fired");
   console.log("context.query", context.query);
   // Fetch data from external API
@@ -90,7 +90,7 @@ export async function getServerSideProps(context) {
   return { props: { links } };
 }
 
-export default function NestedList({ links }) {
+export default function NestedList({ links }: { links: Link[] }) {
   // console.log("links", links);
   const [open, setOpen] = React.useState(true);
 

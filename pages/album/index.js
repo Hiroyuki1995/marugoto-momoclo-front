@@ -1,5 +1,5 @@
 import * as React from "react";
-import Seo from "../../src/components/Seo.js";
+import Seo from "../../src/components/Seo";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Avatar } from "@mui/material";
@@ -24,7 +24,7 @@ import InstagramIcon from "../../src/components/InstagramIcon.js";
 import { pageUrl, imageUrl } from "../../src/const/const.url.js";
 
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Header } from "../../src/components/Header.js";
+import { Header } from "../../src/components/Header";
 import YouTubeIcon from "../../src/components/YouTubeIcon.js";
 import {
   fetchPosts,

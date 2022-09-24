@@ -1,12 +1,25 @@
 import Head from "next/head";
+import React, { ReactNode, FC } from 'react'
 
-const Seo = ({
+
+type Props = {
+  pageTitle?: string;
+  pageDescription?: string;
+  pagePath?: string;
+  pageImg?: string;
+  pageImgWidth?: number;
+  pageImgHeight?: number;
+  children?: ReactNode;
+}
+
+const Seo: React.FC<Props> = ({
   pageTitle,
   pageDescription,
   pagePath = "",
   pageImg,
   pageImgWidth = 0,
   pageImgHeight = 0,
+  // children,
 }) => {
   const defaultTitle = "まるごとももクロ";
   const defaultDescription = "ももクロの最新情報をお届けします";
@@ -41,6 +54,7 @@ const Seo = ({
         rel="stylesheet"
       />
       <link rel="canonical" href={url} />
+      {/* {children} */}
     </Head>
   );
 };

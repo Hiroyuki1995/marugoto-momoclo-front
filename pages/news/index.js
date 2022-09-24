@@ -1,11 +1,11 @@
 import * as React from "react";
 import { pageUrl } from "../../src/const/const.url.js";
-import Seo from "../../src/components/Seo.js";
+import Seo from "../../src/components/Seo";
 import Grid from "@mui/material/Grid";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect } from "react";
-import { Header } from "../../src/components/Header.js";
+import { Header } from "../../src/components/Header";
 
 const theme = createTheme();
 

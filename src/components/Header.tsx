@@ -5,9 +5,13 @@ import Toolbar from "@mui/material/Toolbar";
 import { Container } from "@mui/material";
 import Image from "next/image";
 
-export const Header = (props) => {
+type Props = {
+  children?: React.ReactNode | null,
+};
+
+export const Header: React.FC<Props> = ({ children }) => {
   return (
-    <AppBar position="fixed" color={"grey"} style={{ zIndex: 2 }}>
+    <AppBar position="fixed" style={{ zIndex: 2, backgroundColor: "#fff" }}>
       <Container maxWidth="md" style={{ padding: 0 }}>
         <Toolbar>
           {/* <Typography variant="h6" color="inherit" noWrap>
@@ -18,7 +22,7 @@ export const Header = (props) => {
             sx={{ display: { xs: "flex", md: "flex" } }}
             style={{ marginLeft: "auto" }}
           >
-            {props.children}
+            {children}
           </Box>
         </Toolbar>
       </Container>

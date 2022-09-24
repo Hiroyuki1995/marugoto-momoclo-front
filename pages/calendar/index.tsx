@@ -1,6 +1,6 @@
 import * as React from "react";
-import { pageUrl } from "../../src/const/const.url.js";
-import Seo from "../../src/components/Seo.js";
+import { pageUrl } from "../../src/const/const.url";
+import Seo from "../../src/components/Seo";
 // import { useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import CameraIcon from "@mui/icons-material/PhotoCamera";
@@ -35,7 +35,7 @@ import {
 } from "@fullcalendar/react";
 import { useEffect, useState } from "react";
 import { categories, groups } from "../../src/const/const.calendar";
-import { Header } from "../../src/components/Header.js";
+import { Header } from "../../src/components/Header";
 import dayjs from "dayjs";
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
 
@@ -49,7 +49,7 @@ type SelectedEventApi = Partial<EventApi> & {
 }
 const initialSelectedEvent: SelectedEventApi = {};
 
-export default function Calendar(props) {
+export default function Calendar() {
   const [open, setOpen] = React.useState(false);
   const [displayCategoryIds, setDisplayCategoryIds] = useState(
     categories
@@ -144,7 +144,7 @@ export default function Calendar(props) {
 
   console.log("groups", groups);
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log("displayCategoryIds before change", displayCategoryIds);
     console.log("handleChange", event.target.checked, event.target.id);
     if (event.target.checked === true) {
