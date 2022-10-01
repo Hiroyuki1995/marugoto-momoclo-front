@@ -28,11 +28,25 @@ export const avators = [
     link: "takagireni_official",
   },
   {
+    name: "公式Instagram",
+    shortName: "公式Instagram",
+    src: "/mcz517_official.jpg",
+    key: "official",
+    link: "mcz517_official",
+  },
+  {
     name: "Momoiro Clover Z Channel",
     shortName: "公式YouTube",
     src: "/momoriocloverzchannel.jpg",
     key: "Momoiro Clover Z Channel",
     link: "MCZofficial",
+  },
+  {
+    name: "公式Twitter",
+    shortName: "公式Twitter",
+    src: "/mcz517_official.jpg",
+    key: "mcz517_official",
+    link: "mcz517_official",
   },
   {
     name: "ももクロインフォ公式",
@@ -41,7 +55,6 @@ export const avators = [
     key: "information_mcz",
     link: "information_mcz",
   },
-
   {
     name: "『ももクロChan』",
     shortName: "Chan",
