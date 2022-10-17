@@ -358,7 +358,7 @@ export async function getServerSideProps(context) {
 
   const res = await fetch(`${apiUrl}/photosUrl/${context.query.id}`, {
     headers: {
-      "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+      "x-api-key": "NVsVHyhzgG8k8QIwWAvcE4anv9gJH4M88ZXHaGqO",
     },
   });
   const data = await res.json();

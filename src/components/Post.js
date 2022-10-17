@@ -11,7 +11,7 @@ const Post = () => {
       // const res = await fetch("https://jsonplaceholder.typicode.com/posts");
       const res = await fetch(`${apiUrl}/photosUrl?person=all`, {
         headers: {
-          "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+          "x-api-key": "NVsVHyhzgG8k8QIwWAvcE4anv9gJH4M88ZXHaGqO",
         },
       });
       const data = await res.json();

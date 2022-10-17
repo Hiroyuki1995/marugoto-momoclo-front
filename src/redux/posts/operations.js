@@ -33,7 +33,7 @@ export const fetchPosts = (person, lastEvaluatedKey, refresh) => {
       }`,
       {
         headers: {
-          "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+          "x-api-key": "NVsVHyhzgG8k8QIwWAvcE4anv9gJH4M88ZXHaGqO",
         },
       }
     );

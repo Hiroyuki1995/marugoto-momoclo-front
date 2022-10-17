@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   console.log("データを取得");
   const res = await fetch(`${apiUrl}/links`, {
     headers: {
-      "x-api-key": "dxZgNirsUH288XujmlO1G14PT39FUtec8FrNGDhL",
+      "x-api-key": "NVsVHyhzgG8k8QIwWAvcE4anv9gJH4M88ZXHaGqO",
     },
   });
   const json = await res.json();
