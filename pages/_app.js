@@ -14,6 +14,7 @@ import Router from "next/router";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import NProgress from "nprogress"; // 画面遷移時のプログレスバーの表示
+import GoogleTagManager from "../src/components/GoogleTagManager.tsx";
 // import "../styles/index.css";
 // import App from "./index";
 
@@ -90,6 +91,7 @@ function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
+      <GoogleTagManager />
       <footer id="footer">
         <Paper
           sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 2 }}
