@@ -434,7 +434,7 @@ export default function Album({ data }) {
     // if (refresh !== false && showAllImages === false) {
     if (showAllImages === false) {
       // getPosts({});
-      console.log("ここでデータ取得するつもりだった");
+      console.log("showAllImages === false");
     }
     console.log("window.scrollY", window.scrollY);
   }, [dispatch]);
