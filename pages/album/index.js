@@ -1,38 +1,38 @@
+import { Avatar } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import CssBaseline from "@mui/material/CssBaseline";
+import IconButton from "@mui/material/IconButton";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
 import Seo from "../../src/components/Seo";
-import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Avatar } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import CircularProgress from "@mui/material/CircularProgress";
 // import { Link, useLocation } from "react-router-dom";
-import Link from "next/link";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { List, ListItem, Container } from "@mui/material";
-import GridViewIcon from "@mui/icons-material/GridView";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import GridOnIcon from "@mui/icons-material/GridOn";
+import GridViewIcon from "@mui/icons-material/GridView";
+import { Container, List, ListItem } from "@mui/material";
 import Chip from "@mui/material/Chip";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import { red, pink, yellow, purple } from "@mui/material/colors";
-import StoriesIcon from "../../src/components/StoriesIcon.js";
+import { pink, purple, red, yellow } from "@mui/material/colors";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import InstagramIcon from "../../src/components/InstagramIcon.js";
-import { pageUrl, imageUrl } from "../../src/const/const.url.js";
+import StoriesIcon from "../../src/components/StoriesIcon.js";
+import { imageUrl, pageUrl } from "../../src/const/const.url.js";
 
+import Grid from "@mui/material/Grid";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Header } from "../../src/components/Header";
 import YouTubeIcon from "../../src/components/YouTubeIcon.js";
 import {
-  fetchPosts,
   changeNumberOfColumns,
   changePerson,
+  fetchPosts,
   registerFirstData,
 } from "../../src/redux/posts/operations.js";
-import Grid from "@mui/material/Grid";
 
 import { avators } from "../../src/const/const.album.js";
 import { apiUrl } from "../../src/const/const.url.js";
@@ -426,6 +426,16 @@ export default function Album({ data }) {
       console.log("showAllImagesがtrueのため画像取得しません。");
     }
     setLoading(false);
+    console.log(
+      "fetchedNumberPerPerson",
+      true ? 1 : Math.ceil(results.length / 30) + 1
+    );
+    window.dataLayer.push({
+      event: "fetchImages",
+      searchPerson: searchPerson,
+      fetchedNumberPerPerson:
+        refresh === true ? 1 : Math.ceil(results.length / 30) + 1, // 特定アカウントのデータ取得回数
+    });
   };
 
   useEffect(() => {
@@ -600,6 +610,11 @@ export default function Album({ data }) {
           dataLength={posts.results.length} //This is important field to render the next data
           next={() => {
             console.log("fire next function");
+            // console.log("person", person);
+            // window.dataLayer.push({
+            //   event: "image-scroll",
+            //   person: person,
+            // });
             getPosts({ lastEvaluatedKey: lastEvaluatedKey });
           }}
           scrollThreshold={"200px"}

@@ -5,28 +5,25 @@
 //   return <Component {...pageProps} />;
 // }
 
-import React from "react";
-import ReactDOM from "react-dom";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import Router, { useRouter } from "next/router";
+import NProgress from "nprogress"; // 画面遷移時のプログレスバーの表示
+import React, { useEffect, useRef } from "react";
+import GoogleTagManager from "../src/components/GoogleTagManager.tsx";
+import { googleTagManagerId } from "../src/utils/gtm";
 import "../styles/global.css";
 import "../styles/nprogress.css";
-import Router from "next/router";
-import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
-import NProgress from "nprogress"; // 画面遷移時のプログレスバーの表示
-import GoogleTagManager from "../src/components/GoogleTagManager.tsx";
 // import "../styles/index.css";
 // import App from "./index";
 
-import createStore from "../src/redux/store/store";
-import { Provider } from "react-redux";
-import * as History from "history";
 import {
-  PhotoOutlined,
   ArticleOutlined,
-  TodayOutlined,
   Link as LinkIcon,
+  PhotoOutlined,
+  TodayOutlined,
 } from "@mui/icons-material";
+import { Provider } from "react-redux";
+import createStore from "../src/redux/store/store";
 
 export const store = createStore();
 
@@ -91,7 +88,7 @@ function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <GoogleTagManager />
+      <GoogleTagManager googleTagManagerId={googleTagManagerId} />
       <footer id="footer">
         <Paper
           sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 2 }}

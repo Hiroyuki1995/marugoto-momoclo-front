@@ -1,10 +1,10 @@
-import {
-  registerPostsAction,
-  registerNumberAction,
-  registerScrollPositionAction,
-  registerPersonAction,
-} from "./actions.js";
 import { apiUrl } from "../../const/const.url.js";
+import {
+  registerNumberAction,
+  registerPersonAction,
+  registerPostsAction,
+  registerScrollPositionAction,
+} from "./actions.js";
 
 export const fetchPosts = (person, lastEvaluatedKey, refresh) => {
   return async (dispatch, getState) => {
@@ -50,7 +50,6 @@ export const fetchPosts = (person, lastEvaluatedKey, refresh) => {
       "items",
       items
     );
-    // }
     dispatch(
       registerPostsAction({
         items: items,

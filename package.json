@@ -48,7 +48,7 @@
     "xhr": "^2.6.0"
   },
   "scripts": {
-    "dev": "APP_ENV=local next dev",
+    "dev": "APP_ENV=dev next dev",
     "build": "APP_ENV=prod next build",
     "start": "next start"
   },
